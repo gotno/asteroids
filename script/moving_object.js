@@ -2,26 +2,18 @@
   var Asteroids = root.Asteroids = (root.Asteroids || {});
 
   var MovingObject = 
-    Asteroids.MovingObject = function(xpos,
-                                      ypos,
-                                      xvel,
-                                      yvel,
-                                      radius,
-                                      color,
-                                      angle) {
+    Asteroids.MovingObject = function(options) {
 
-    this.xpos = xpos;
-    this.ypos = ypos;
-    this.xvel = xvel;
-    this.yvel = yvel;
-    this.radius = radius;
-    this.color = color;
-    this.angle = Math.degToRad(angle);
+    this.pos = options.pos || { x: 0, y: 0 };
+    this.vel = options.vel || { x: 0, y: 0 };
+    this.radius = options.radius || 0;
+    this.color = options.color || '#000000';
+    this.angle = Math.degToRad(options.angle || 0);
   }
 
   MovingObject.prototype.move = function() {
-    this.xpos += this.xvel;
-    this.ypos += this.yvel;
+    this.pos.x += this.vel.x;
+    this.pos.y += this.vel.y;
   };
 
   MovingObject.prototype.draw = function(ctx) {
@@ -30,8 +22,8 @@
 
     ctx.beginPath();
 
-    ctx.arc(this.xpos,
-            this.ypos,
+    ctx.arc(this.pos.x,
+            this.pos.y,
             this.radius + 1,
             0,
             2 * Math.PI);
@@ -40,8 +32,8 @@
   };
 
   MovingObject.prototype.isCollidedWith = function (otherObject) {
-    var dx = Math.pow((this.xpos - otherObject.xpos), 2);
-    var dy = Math.pow((this.ypos - otherObject.ypos), 2);
+    var dx = Math.pow((this.pos.x - otherObject.pos.x), 2);
+    var dy = Math.pow((this.pos.y - otherObject.pos.y), 2);
 
     var distance = Math.sqrt(dx + dy);
 

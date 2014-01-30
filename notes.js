@@ -1,5 +1,6 @@
 emitter
   x/y
+  angle
   spawn rate
   
 

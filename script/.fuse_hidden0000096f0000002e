@@ -38,18 +38,16 @@
      Asteroids.MovingObject.prototype.draw.call(this, ctx);
 
      var initOpts = { 
-       x: this.pos.x + Ship.RADIUS,
-       y: this.pos.y
+       x: this.pos.x + Ship.radius,
+       y: this.pos.y,
+       angle: this.angle 
      };
 
+     console.log(this.pos.x);
      var bow  = $.extend({}, initOpts);
-     bow.angle = this.angle;
-
      var port = $.extend({}, initOpts);
-     port.angle = this.angle + Math.degToRad(130);
-
      var star = $.extend({}, initOpts);
-     star.angle = this.angle - Math.degToRad(130);
+
 
      var rotatedBow = Ship.rotatePoint(bow.x,
                                        bow.y,
@@ -62,14 +60,15 @@
                                         this.pos.x,
                                         this.pos.y,
                                         port.angle);
-
      var rotatedStar = Ship.rotatePoint(star.x,
                                         star.y,
                                         this.pos.x,
                                         this.pos.y,
                                         star.angle);
 
-
+//     console.log(rotatedBow);
+//     console.log(rotatedPort);
+//     console.log(rotatedStar);
      ctx.strokeStyle = this.color;
      ctx.fillStyle = this.color;
 

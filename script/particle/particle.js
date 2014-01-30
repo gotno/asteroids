@@ -1,9 +1,10 @@
 (function(root) {
-  var Asteroids = root.Asteroids;
+  var Asteroids = root.Asteroids = (root.Asteroids || {});
 
-  var Effects = root.Effects = (root.Effects || {});
-  var Particle = Effects.Particle = function(options) {
-    // pos, vel, lifespan, color
+  var Particle = Asteroids.Particle = function(options) {
+    // pos, vel
+    // lifespan, color
+    // friction
   };
 
   Particle.inherits(Asteroids.MovingObject);

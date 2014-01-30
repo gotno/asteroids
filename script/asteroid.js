@@ -7,14 +7,8 @@
       this.prototype = new Surrogate();
     }
 
-    var Asteroid = Asteroids.Asteroid = function(xpos, ypos, xvel, yvel, radius){
-      Asteroids.MovingObject.call(this,
-                        xpos,
-                        ypos,
-                        xvel,
-                        yvel,
-                        radius,
-                        Asteroid.COLOR);
+    var Asteroid = Asteroids.Asteroid = function(options){
+      Asteroids.MovingObject.call(this, options);
     }
 
     Asteroid.inherits(Asteroids.MovingObject);
@@ -22,13 +16,22 @@
     Asteroid.RADIUS = 64;
 
     Asteroid.randomAsteroid = function(dimX, dimY){
-      xpos = Math.random() * dimX;
-      ypos = Math.random() * dimY;
+      var options = {};
+      options.pos = {};
+      options.pos.x = Math.random() * dimX;
+      options.pos.y = Math.random() * dimY;
 
-      return new Asteroid(xpos, ypos, randomVec(), randomVec(), randomRad());
+      options.vel = {};
+      options.vel.x = randomVel();
+      options.vel.y = randomVel();
+      options.radius = randomRad();
+
+      options.color = Asteroid.COLOR;
+
+      return new Asteroid(options);
     }
 
-    var randomVec = function () {
+    var randomVel = function () {
       return (Math.random() * 5) - 2.5;
     };
 

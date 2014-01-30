@@ -23,7 +23,7 @@
    };
 
    Ship.prototype.fireBullet = function(game) {
-     var bulletXVel = Math.sin(this.angle + Math.degToRad(90)) * Ship.BULLET_SPEED;
+     var bulletXVel =  Math.sin(this.angle + Math.degToRad(90)) * Ship.BULLET_SPEED;
      var bulletYVel = -Math.cos(this.angle + Math.degToRad(90)) * Ship.BULLET_SPEED;
      
      var bullet = new Asteroids.Bullet(this.xpos,

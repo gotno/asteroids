@@ -4,4 +4,4 @@ A clone of the classic arcade game, Asteroids. Javascript rendering on an HTML5 
 
 Particle effects for the rocket exhaust.
 
-Play it here: [www](www) 
+You can play it here: [ASTEROIDS](http://gotno.github.io/asteroids/) 

@@ -15,6 +15,7 @@
        pos: $.extend({}, this.pos),
        ctx: ctx
      });
+
      this.emitterDistance = 10;
    }
    Ship.inherits(Asteroids.MovingObject);
@@ -42,8 +43,6 @@
    };
 
    Ship.prototype.draw = function(ctx) {
-//     Asteroids.MovingObject.prototype.draw.call(this, ctx);
-
      var initOpts = { 
        x: this.pos.x + Ship.RADIUS,
        y: this.pos.y
@@ -77,7 +76,6 @@
                                         star.angle);
 
 
-     ctx.strokeStyle = this.color;
      ctx.fillStyle = this.color;
 
      ctx.moveTo(rotatedStar.x, rotatedStar.y);
@@ -88,21 +86,20 @@
      ctx.lineTo(rotatedStar.x, rotatedStar.y);
      ctx.closePath();
      ctx.fill();
-     //ctx.stroke();
 
-     var emitter = {
+     var emitterOpts = {
        x: this.pos.x + Ship.RADIUS + this.emitterDistance,
        y: this.pos.y,
        angle: this.angle - Math.PI
      }
-     var rotatedEmitter = Ship.rotatePoint(emitter.x,
-                                           emitter.y,
+     var rotatedEmitter = Ship.rotatePoint(emitterOpts.x,
+                                           emitterOpts.y,
                                            this.pos.x,
                                            this.pos.y,
-                                           emitter.angle);
+                                           emitterOpts.angle);
      this.exhaustEmitter.pos.x = rotatedEmitter.x;
      this.exhaustEmitter.pos.y = rotatedEmitter.y;
-     this.exhaustEmitter.angle = emitter.angle;
+     this.exhaustEmitter.angle = emitterOpts.angle;
 
      this.exhaustEmitter.particleStep();
    }

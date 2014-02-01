@@ -35,39 +35,52 @@
     })
   };
 
-  // wrapping goes in here
   Game.prototype.move = function() {
+    var game = this;
+
     this.ship.move();
-    var tempRoids = [];
-    var tempBullets = [];
+    this.screenWrap(this.ship);
 
     this.asteroids.forEach(function(asteroid) {
       asteroid.move();
-
-      if (((asteroid.pos.x + asteroid.radius) < 0 ||
-           (asteroid.pos.x - asteroid.radius) > Game.DIM_X) ||
-          ((asteroid.pos.y + asteroid.radius) < 0 ||
-           (asteroid.pos.y - asteroid.radius) > Game.DIM_Y)) {
-      } else {
-        tempRoids.push(asteroid);
-      }
+      game.screenWrap(asteroid);
     });
 
-    this.asteroids = tempRoids;
+    var tempBullets = [];
 
     this.bullets.forEach(function(bullet) {
       bullet.move();
-
-      if (((bullet.pos.x + bullet.radius) < 0 ||
-           (bullet.pos.x - bullet.radius) > Game.DIM_X) ||
-          ((bullet.pos.y + bullet.radius) < 0 ||
-           (bullet.pos.y - bullet.radius) > Game.DIM_Y)) {
-      } else {
+      if (game.isOnScreen(bullet)) {
         tempBullets.push(bullet);
       }
     });
 
     this.bullets = tempBullets;
+  };
+
+  Game.prototype.screenWrap = function(mObj) {
+    if (mObj.pos.x + mObj.radius < 0 && mObj.vel.x < 0) {
+      mObj.pos.x = Game.DIM_X + mObj.radius;
+    }
+    if (mObj.pos.x - mObj.radius > Game.DIM_X && mObj.vel.x > 0) {
+      mObj.pos.x = -(mObj.radius);
+    }
+    if (mObj.pos.y + mObj.radius < 0 && mObj.vel.y < 0) {
+      mObj.pos.y = Game.DIM_Y + mObj.radius;
+    }
+    if (mObj.pos.y - mObj.radius > Game.DIM_Y && mObj.vel.y > 0) {
+      mObj.pos.y = -(mObj.radius);
+    }
+  };
+
+  Game.prototype.isOnScreen = function(mObj) {
+    if (((mObj.pos.x + mObj.radius) < 0 ||
+         (mObj.pos.x - mObj.radius) > Game.DIM_X) ||
+        ((mObj.pos.y + mObj.radius) < 0 ||
+         (mObj.pos.y - mObj.radius) > Game.DIM_Y)) {
+       return false;
+    } 
+    return true;
   };
 
   Game.prototype.step = function() {

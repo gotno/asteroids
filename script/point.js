@@ -2,9 +2,9 @@
   var Asteroids = root.Asteroids = ( root.Asteroids || {});
 
   var Point = Asteroids.Point = function(options) {
-    this.pos = options.pos || { x: 0, y: 0 };
-    this.origin = options.origin || { x: 0, y: 0 };
-    this.angle = options.angle || 0;
+    this.pos = options.pos;
+    this.origin = options.origin;
+    this.angle = options.angle;
   };
 
   Point.prototype.rotate = function(angle) {

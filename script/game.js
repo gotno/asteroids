@@ -20,10 +20,11 @@
   };
 
   Game.prototype.draw = function() {
-    this.ctx.fillStyle = '#123234'
-    this.ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
-
     var ctx = this.ctx;
+
+    ctx.fillStyle = Game.colors.bg;
+    ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
+
     this.ship.draw(ctx);
 
     this.asteroids.forEach(function(asteroid) {
@@ -85,9 +86,9 @@
 
   Game.prototype.step = function() {
     this.checkKeyPresses();
+    this.checkCollisions();
     this.move();
     this.draw();
-    this.checkCollisions();
   };
 
   Game.prototype.start = function() {
@@ -116,25 +117,42 @@
 
   Game.prototype.checkCollisions = function(){
     var game = this;
-    this.asteroids.forEach(function(asteroid){
+    this.asteroids.forEach(function(asteroid, aIdx){
       if (asteroid.isCollidedWith(game.ship)) {
         console.log("hit, over.");
         //alert("GAME OVER!!!!")
         //game.stop();
       }
+
+      if (game.bullets.length > 0) {
+        game.bullets.forEach(function(bullet, bIdx) {
+          if (asteroid.isCollidedWith(bullet)) {
+            game.handleBulletHit(aIdx, bIdx);
+          }
+        });
+      }
     });
-  }
+  };
 
   Game.prototype.fireBullet = function() {
     var bullet = this.ship.fireBullet(this);
     if (bullet){
       this.bullets.push(bullet);
     }
-  }
+  };
+
+  Game.prototype.handleBulletHit = function(aIdx, bIdx) {
+    this.asteroids.splice(aIdx, 1);
+    this.bullets.splice(bIdx, 1);
+  };
 
   Game.prototype.stop = function(){
     clearInterval(this.interval);
   }
+
+  Game.colors = {
+    bg: '#123234'
+  };
 
   Game.INTERVAL_MILLISECONDS = 30;
   Game.DIM_X = 640;

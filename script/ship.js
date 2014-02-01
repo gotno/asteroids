@@ -117,10 +117,6 @@
      return { x: newX, y: newY };
    };
 
-   Math.degToRad = function(deg) {
-     return deg * (Math.PI / 180);
-   }
-
    Ship.RADIUS = 8;
    Ship.IMPULSE = 0.20;
    Ship.BULLET_SPEED = 12;

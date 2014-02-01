@@ -1,7 +1,7 @@
 (function(root){
    var Asteroids = root.Asteroids = (root.Asteroids || {});
 
-   var Ship = Asteroids.Ship = function(pos){
+   var Ship = Asteroids.Ship = function(pos, ctx){
      var options = {};
      options.pos = pos;
      options.vel = { x: 0, y: 0 };
@@ -10,12 +10,19 @@
      options.angle = 270;
 
      Asteroids.MovingObject.call(this, options);
+
+     this.exhaustEmitter = new Asteroids.Emitter({
+       pos: $.extend({}, this.pos),
+       ctx: ctx
+     });
+     this.emitterDistance = 10;
    }
    Ship.inherits(Asteroids.MovingObject);
 
    Ship.prototype.impulse = function(ximp, yimp) {
-     this.vel.x += (  Math.sin(this.angle + Math.degToRad(90)) * Ship.IMPULSE );
-     this.vel.y += ( -Math.cos(this.angle + Math.degToRad(90)) * Ship.IMPULSE );
+     this.vel.x += ( Math.sin(this.angle + Math.degToRad(90)) * Ship.IMPULSE );
+     this.vel.y += (-Math.cos(this.angle + Math.degToRad(90)) * Ship.IMPULSE );
+     this.exhaustEmitter.emit();
    };
    
    Ship.prototype.rotate = function(degrees) {
@@ -35,7 +42,7 @@
    };
 
    Ship.prototype.draw = function(ctx) {
-     Asteroids.MovingObject.prototype.draw.call(this, ctx);
+//     Asteroids.MovingObject.prototype.draw.call(this, ctx);
 
      var initOpts = { 
        x: this.pos.x + Ship.RADIUS,
@@ -82,6 +89,22 @@
      ctx.closePath();
      ctx.fill();
      //ctx.stroke();
+
+     var emitter = {
+       x: this.pos.x + Ship.RADIUS + this.emitterDistance,
+       y: this.pos.y,
+       angle: this.angle - Math.PI
+     }
+     var rotatedEmitter = Ship.rotatePoint(emitter.x,
+                                           emitter.y,
+                                           this.pos.x,
+                                           this.pos.y,
+                                           emitter.angle);
+     this.exhaustEmitter.pos.x = rotatedEmitter.x;
+     this.exhaustEmitter.pos.y = rotatedEmitter.y;
+     this.exhaustEmitter.angle = emitter.angle;
+
+     this.exhaustEmitter.particleStep();
    }
 
    Ship.rotatePoint = function(px, py, ox, oy, theta) {

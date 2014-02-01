@@ -1,9 +1,7 @@
 (function(root){
   var Asteroids = root.Asteroids = (root.Asteroids || {});
 
-  var MovingObject = 
-    Asteroids.MovingObject = function(options) {
-
+  var MovingObject = Asteroids.MovingObject = function(options) {
     this.pos = options.pos || { x: 0, y: 0 };
     this.vel = options.vel || { x: 0, y: 0 };
     this.radius = options.radius || 0;

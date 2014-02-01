@@ -7,8 +7,8 @@
     this.interval = null;
     this.ship = new Asteroids.Ship({
       x: Game.DIM_X/2,
-      y: Game.DIM_Y/2
-    });
+      y: Game.DIM_Y/2,
+    }, ctx);
     this.bullets = [];
   };
 

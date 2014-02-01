@@ -1,7 +1,7 @@
 (function(root){
    var Asteroids = root.Asteroids = (root.Asteroids || {});
 
-   var Ship = Asteroids.Ship = function(pos){
+   var Ship = Asteroids.Ship = function(pos, ctx){
      var options = {};
      options.pos = pos;
      options.vel = { x: 0, y: 0 };
@@ -10,12 +10,18 @@
      options.angle = 270;
 
      Asteroids.MovingObject.call(this, options);
+
+     this.exhaustEmitter = new Asteroids.Emitter({
+       pos: $.extend({}, this.pos),
+       ctx: ctx
+     });
    }
    Ship.inherits(Asteroids.MovingObject);
 
    Ship.prototype.impulse = function(ximp, yimp) {
      this.vel.x += (  Math.sin(this.angle + Math.degToRad(90)) * Ship.IMPULSE );
      this.vel.y += ( -Math.cos(this.angle + Math.degToRad(90)) * Ship.IMPULSE );
+     this.exhaustEmitter.emit();
    };
    
    Ship.prototype.rotate = function(degrees) {
@@ -38,16 +44,18 @@
      Asteroids.MovingObject.prototype.draw.call(this, ctx);
 
      var initOpts = { 
-       x: this.pos.x + Ship.radius,
-       y: this.pos.y,
-       angle: this.angle 
+       x: this.pos.x + Ship.RADIUS,
+       y: this.pos.y
      };
 
-     console.log(this.pos.x);
      var bow  = $.extend({}, initOpts);
-     var port = $.extend({}, initOpts);
-     var star = $.extend({}, initOpts);
+     bow.angle = this.angle;
 
+     var port = $.extend({}, initOpts);
+     port.angle = this.angle + Math.degToRad(130);
+
+     var star = $.extend({}, initOpts);
+     star.angle = this.angle - Math.degToRad(130);
 
      var rotatedBow = Ship.rotatePoint(bow.x,
                                        bow.y,
@@ -60,15 +68,14 @@
                                         this.pos.x,
                                         this.pos.y,
                                         port.angle);
+
      var rotatedStar = Ship.rotatePoint(star.x,
                                         star.y,
                                         this.pos.x,
                                         this.pos.y,
                                         star.angle);
 
-//     console.log(rotatedBow);
-//     console.log(rotatedPort);
-//     console.log(rotatedStar);
+
      ctx.strokeStyle = this.color;
      ctx.fillStyle = this.color;
 

@@ -6,14 +6,13 @@
 
      this.points = options.points;
      this.rotationSpeed = options.rotationSpeed;
+     this.strokeColor = options.strokeColor || null;
    };
    var MovingObjectPointed = Asteroids.MovingObjectPointed;
    MovingObjectPointed.inherits(Asteroids.MovingObject);
 
    MovingObjectPointed.prototype.draw = function(ctx) {
      ctx.fillStyle = this.color;
-     ctx.strokeStyle = '#000000';
-     ctx.lineWidth = 2;
      ctx.beginPath();
      ctx.moveTo(this.points[0].pos.x, this.points[0].pos.y);
      for (var i = 1; i < this.points.length; i++) {
@@ -21,7 +20,11 @@
      }
      ctx.lineTo(this.points[0].pos.x, this.points[0].pos.y);
      ctx.fill();
-     ctx.stroke();
+     if (this.strokeColor) {
+       ctx.strokeStyle = this.strokeColor;
+       ctx.lineWidth = 2;
+       ctx.stroke();
+     }
    };
 
    MovingObjectPointed.prototype.rotate = function(angle) {

@@ -3,10 +3,12 @@
 
     var Asteroid = Asteroids.Asteroid = function(options){
       Asteroids.MovingObjectPointed.call(this, options);
+      this.crosslineIndices = options.crosslineIndices;
     }
 
     Asteroid.inherits(Asteroids.MovingObjectPointed);
-    Asteroid.COLOR = "#FF4657";
+    Asteroid.COLOR = '#952933';
+    Asteroid.STROKE_COLOR = '#FF4657'
     Asteroid.RADIUS = 64;
 
     Asteroid.randomAsteroid = function(dimX, dimY){
@@ -45,15 +47,41 @@
       options.vel.y = Asteroid.randomVel();
 
       options.color = Asteroid.COLOR;
+      options.strokeColor = Asteroid.STROKE_COLOR;
 
       var randomRotation = Math.roundTo((Math.random() * 1.5) - 0.75, 2);
       options.rotationSpeed = Math.degToRad(randomRotation);
 
+      options.crosslineIndices = [];
+      var firstPoint = Math.floor(Math.random() * options.points.length);
+      var secondPoint = ((Math.ceil(Math.random() * 2) + 1) + firstPoint);
+      secondPoint %= options.points.length;
+      options.crosslineIndices.push([firstPoint, secondPoint]);
+
+      secondPoint = (secondPoint + 1 + Math.round(Math.random() * 1));
+      secondPoint %= options.points.length;
+      options.crosslineIndices.push([firstPoint, secondPoint]); 
+
       return new Asteroid(options);
     }
 
+    Asteroid.prototype.draw = function(ctx) {
+      Asteroids.MovingObjectPointed.prototype.draw.call(this, ctx);
+
+      var asteroid = this;
+
+      this.crosslineIndices.forEach(function(pair) {
+        ctx.beginPath();
+        var point = asteroid.points[pair[0]];
+        ctx.moveTo(point.pos.x, point.pos.y);
+        point = asteroid.points[pair[1]];
+        ctx.lineTo(point.pos.x, point.pos.y);
+        ctx.stroke();
+      });
+    };
+
     Asteroid.randomVel = function () {
-      return (Math.random() * 5) - 2.5;
+      return (Math.random() * 4) - 2;
     };
 
     Asteroid.randomRadius = function () {

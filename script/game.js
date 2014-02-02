@@ -66,8 +66,6 @@
     ctx.fillStyle = Game.colors.bg;
     ctx.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
 
-    this.ship.draw(ctx);
-
     this.asteroids.forEach(function(asteroid) {
       asteroid.draw(ctx);
     });
@@ -75,6 +73,8 @@
     this.bullets.forEach(function(bullet) {
       bullet.draw(ctx);
     });
+
+    this.ship.draw(ctx);
 
 //    this.mop.draw(ctx);
   };

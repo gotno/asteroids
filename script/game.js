@@ -10,19 +10,18 @@
       y: Game.DIM_Y/2,
     }, ctx);
     this.bullets = [];
+    this.score = 0;
   };
 
-  Game.prototype.addAsteroids = function(numAsteroids, small, x, y) {
+  Game.prototype.addSmallAsteroids = function(numAsteroids, asteroid) {
     for (var i = 0; i < numAsteroids; i++) {
-      if (small) {
-        this.asteroids.push(Asteroids.Asteroid.randomAsteroid(Game.DIM_X,
-                                                              Game.DIM_Y,
-                                                              true,
-                                                              x, y));
-      } else {
-        this.asteroids.push(Asteroids.Asteroid.randomAsteroid(Game.DIM_X,
-                                                              Game.DIM_Y));
-      }
+      this.asteroids.push(Asteroids.Asteroid.randomSmallAsteroid(asteroid));
+    }
+  };
+  Game.prototype.addAsteroids = function(numAsteroids) {
+    for (var i = 0; i < numAsteroids; i++) {
+      this.asteroids.push(Asteroids.Asteroid.randomAsteroid(Game.DIM_X,
+                                                            Game.DIM_Y));
     }
   };
 
@@ -128,7 +127,8 @@
       if (asteroid.isCollidedWith(game.ship)) {
         //console.log("hit, over.");
         //alert("GAME OVER!!!!")
-        game.stop();
+        console.log('score: ', game.score);
+        //game.stop();
       }
 
       if (game.bullets.length > 0) {
@@ -152,11 +152,14 @@
 
   Game.prototype.handleBulletHit = function(aIdx, bIdx) {
     var asteroid = this.asteroids[aIdx];
-    var numNew = 1 + (Math.ceil(Math.random() * 2))
     if (!asteroid.isSmall()) {
-      this.addAsteroids(numNew, true, asteroid.pos.x, asteroid.pos.y);
+      var numNew = 1 + (Math.ceil(Math.random() * 2))
+      this.addSmallAsteroids(numNew, $.extend({}, asteroid));
+      this.score += 2;
     } else {
+      var numNew = 1 + (Math.ceil(Math.random() * 2))
       this.addAsteroids(numNew);
+      this.score += 1;
     }
     this.asteroids.splice(aIdx, 1);
     this.bullets.splice(bIdx, 1);

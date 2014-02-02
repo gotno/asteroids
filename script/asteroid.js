@@ -12,41 +12,53 @@
     Asteroid.SMALL_RADIUS = 32;
     Asteroid.RADIUS = 64;
 
-    Asteroid.randomAsteroid = function(dimX, dimY, small, x, y){
-      var numPoints = 7 + Math.floor(Math.random() * 4);
-      var avgDistance = Math.roundTo((2 * Math.PI / numPoints), 2);
-      var distWobble = Math.roundTo(Math.degToRad(15), 2);
+    Asteroid.randomSmallAsteroid = function(asteroid) {
+      var options = {};
 
+      options.radius = (asteroid.radius / 2);
+      options.radius += Math.random() * (asteroid.radius / 4)
+      options.radius -= asteroid.radius/8;
+      options.radius = Math.round(options.radius);
+
+      options.pos = Asteroid.randomInsidePos(asteroid.pos.x, asteroid.pos.y);
+      options.points = Asteroid.generatePoints(options.pos, options.radius);
+
+      options.vel = {};
+      if (asteroid.vel.x > 0) {
+        options.vel.x = Math.random() * asteroid.vel.x;
+        options.vel.x += Math.random() * asteroid.vel.x;
+      } else {
+        options.vel.x = -(Math.random() * asteroid.vel.x);
+        options.vel.x -= Math.random() * asteroid.vel.x;
+      }
+      if (asteroid.vel.y > 0) {
+        options.vel.y = Math.random() * asteroid.vel.y;
+        options.vel.y += Math.random() * asteroid.vel.y;
+      } else {
+        options.vel.y = -(Math.random() * asteroid.vel.y);
+        options.vel.y -= (Math.random() * asteroid.vel.y);
+      }
+
+      options.color = Asteroid.COLOR;
+      options.strokeColor = Asteroid.STROKE_COLOR;
+
+      var randomRotation = Math.roundTo((Math.random() * 1.5) - 0.75, 2);
+      options.rotationSpeed = Math.degToRad(randomRotation);
+
+      options.crosslineIndices = 
+        Asteroid.generateCrosslineIndices(options.points.length);
+
+      return new Asteroid(options);
+    };
+
+    Asteroid.randomAsteroid = function(dimX, dimY){
       var options = {};
       options.pos = {};
 
-      if (small) {
-        options.radius = Asteroid.randomRadius(Asteroid.SMALL_RADIUS);
-        options.pos.x = x + Math.round((Math.random() * 16) - 8);
-        options.pos.y = y + Math.round((Math.random() * 16) - 8);
-        console.log(options.pos);
-      } else {
-        options.radius = Asteroid.randomRadius(Asteroid.RADIUS);
-        options.pos = Asteroid.randomOutsidePos(dimX, dimY);
-      }
+      options.radius = Asteroid.randomRadius(Asteroid.RADIUS);
+      options.pos = Asteroid.randomOutsidePos(dimX, dimY);
 
-      var currentAngle = 0;
-      var currentWobble = 0;
-      options.points = [];
-      for (var i = 0; i < numPoints; i++) {
-        currentWobble = (Math.random() * distWobble) - (distWobble / 2);
-        currentAngle += avgDistance + distWobble;
-
-        if (currentAngle > Math.PI * 2 || i == numPoints - 1) {
-          currentAngle = 0;
-        }
-
-        options.points.push(new Asteroids.Point({
-          radius: options.radius,
-          origin: options.pos,
-          angle: currentAngle
-        }));
-      }
+      options.points = Asteroid.generatePoints(options.pos, options.radius);
 
       options.vel = {};
       options.vel.x = Asteroid.randomVel();
@@ -58,15 +70,8 @@
       var randomRotation = Math.roundTo((Math.random() * 1.5) - 0.75, 2);
       options.rotationSpeed = Math.degToRad(randomRotation);
 
-      options.crosslineIndices = [];
-      var firstPoint = Math.floor(Math.random() * options.points.length);
-      var secondPoint = ((Math.ceil(Math.random() * 2) + 1) + firstPoint);
-      secondPoint %= options.points.length;
-      options.crosslineIndices.push([firstPoint, secondPoint]);
-
-      secondPoint = (secondPoint + 1 + Math.round(Math.random() * 1));
-      secondPoint %= options.points.length;
-      options.crosslineIndices.push([firstPoint, secondPoint]); 
+      options.crosslineIndices =
+        Asteroid.generateCrosslineIndices(options.points.length); 
 
       return new Asteroid(options);
     }
@@ -87,13 +92,62 @@
     };
 
     Asteroid.prototype.isSmall = function() {
-      console.log(this.radius);
       if (this.radius < Asteroid.SMALL_RADIUS) {
         return true;
       }
       return false;
     };
     
+    Asteroid.generateCrosslineIndices = function(len) {
+      var crosslineIndices = [];
+
+      var firstPoint = Math.floor(Math.random() * len);
+      var secondPoint = ((Math.ceil(Math.random() * 2) + 1) + firstPoint);
+      secondPoint %= len;
+      crosslineIndices.push([firstPoint, secondPoint]);
+
+      secondPoint = (secondPoint + 1 + Math.round(Math.random() * 1));
+      secondPoint %= len;
+      crosslineIndices.push([firstPoint, secondPoint]); 
+
+      return crosslineIndices;
+    };
+    
+    Asteroid.generatePoints = function(pos, radius) {
+      var numPoints = 7 + Math.floor(Math.random() * 4);
+      var avgDistance = Math.roundTo((2 * Math.PI / numPoints), 2);
+      var distWobble = Math.roundTo(Math.degToRad(15), 2);
+
+      var currentAngle = 0;
+      var currentWobble = 0;
+
+      var points = [];
+
+      for (var i = 0; i < numPoints; i++) {
+        currentWobble = (Math.random() * distWobble) - (distWobble / 2);
+        currentAngle += avgDistance + distWobble;
+
+        if (currentAngle > Math.PI * 2 || i == numPoints - 1) {
+          currentAngle = 0;
+        }
+
+        points.push(new Asteroids.Point({
+          origin: pos,
+          radius: radius,
+          angle: currentAngle
+        }));
+      }
+
+      return points;
+    }
+
+    Asteroid.randomInsidePos = function(posX, posY) {
+      var pos = {};
+      pos.x = posX + Math.round((Math.random() * 16) - 8);
+      pos.y = posY + Math.round((Math.random() * 16) - 8);
+      return pos;
+    };
+
     Asteroid.randomOutsidePos = function(dimX, dimY) {
       var pos = {};
 

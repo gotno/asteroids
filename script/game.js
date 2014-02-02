@@ -126,9 +126,9 @@
     var game = this;
     this.asteroids.forEach(function(asteroid, aIdx){
       if (asteroid.isCollidedWith(game.ship)) {
-        console.log("hit, over.");
+        //console.log("hit, over.");
         //alert("GAME OVER!!!!")
-        //game.stop();
+        game.stop();
       }
 
       if (game.bullets.length > 0) {
@@ -152,9 +152,11 @@
 
   Game.prototype.handleBulletHit = function(aIdx, bIdx) {
     var asteroid = this.asteroids[aIdx];
+    var numNew = 1 + (Math.ceil(Math.random() * 2))
     if (!asteroid.isSmall()) {
-      var numNew = 1 + (Math.ceil(Math.random() * 2))
       this.addAsteroids(numNew, true, asteroid.pos.x, asteroid.pos.y);
+    } else {
+      this.addAsteroids(numNew);
     }
     this.asteroids.splice(aIdx, 1);
     this.bullets.splice(bIdx, 1);

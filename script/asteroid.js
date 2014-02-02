@@ -27,8 +27,6 @@
         console.log(options.pos);
       } else {
         options.radius = Asteroid.randomRadius(Asteroid.RADIUS);
-        //options.pos.x = Math.random() * dimX;
-        //options.pos.y = Math.random() * dimY;
         options.pos = Asteroid.randomOutsidePos(dimX, dimY);
       }
 

@@ -10,7 +10,7 @@
       y: Game.DIM_Y/2,
     }, ctx);
     this.bullets = [];
-// 
+/* 
     this.mop = new Asteroids.MovingObjectPointed({
       pos: { x: 320, y: 240 },
       vel: { x: 1, y: 0 },
@@ -51,13 +51,6 @@
       ]
     });
 // */
-/*
-    this.p1 = new Asteroids.Point({
-      origin: { x: 320, y: 240 },
-      radius: 30,
-      angle: 0
-    });
-// */
   };
 
   Game.prototype.addAsteroids = function(numAsteroids) {
@@ -83,24 +76,7 @@
       bullet.draw(ctx);
     });
 
-    this.mop.draw(ctx);
-/*
-    ctx.fillStyle = "#000000"
-    ctx.beginPath();
-    ctx.moveTo(this.p1.pos.x, this.p1.pos.y);
-
-    this.p1.rotate(Math.PI * 0.5);
-    ctx.lineTo(this.p1.pos.x, this.p1.pos.y);
-
-    this.p1.rotate(Math.PI * 0.5);
-    ctx.lineTo(this.p1.pos.x, this.p1.pos.y);
-
-    this.p1.rotate(Math.PI);
-    ctx.lineTo(this.p1.pos.x, this.p1.pos.y);
-
-    ctx.fill();
-// */
-
+//    this.mop.draw(ctx);
   };
 
   Game.prototype.move = function() {
@@ -125,8 +101,8 @@
 
     this.bullets = tempBullets;
 
-    this.mop.move();
-    this.mop.rotate(Math.degToRad(.5));
+//    this.mop.move();
+//    this.mop.rotate(Math.degToRad(.5));
   };
 
   Game.prototype.screenWrap = function(mObj) {

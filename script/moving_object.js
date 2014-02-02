@@ -37,8 +37,4 @@
 
     return ((this.radius + otherObject.radius) > distance);
   };
-
-  MovingObject.prototype.rotate = function () {
-    console.log('rotating');
-  };
 })(this);

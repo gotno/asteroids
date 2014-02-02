@@ -10,4 +10,12 @@
   Math.degToRad = function(deg) {
     return deg * (Math.PI / 180);
   };
+
+  Math.roundTo = function(num, digits) {
+    var mutator = Math.pow(10, digits);
+    num *= mutator;
+    num = Math.round(num);
+    num /= mutator;
+    return num;
+  };
 })(this);

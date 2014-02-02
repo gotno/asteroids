@@ -2,24 +2,42 @@
   var Asteroids = root.Asteroids = ( root.Asteroids || {});
 
   var Point = Asteroids.Point = function(options) {
-    this.pos = options.pos;
+    this.pos = { x: 0, y: 0 };
+    this.radius = options.radius;
     this.origin = options.origin;
-    this.angle = options.angle;
+    this.setAngle(-(options.angle));
+    this.rotate(0);
   };
 
-  Point.prototype.rotate = function(angle) {
-   this.angle += Math.degToRad(angle);
+  Point.prototype.setAngle = function(angle) {
+    this.angle = Math.roundTo(angle, 4);
+  };
 
-   var px = this.pos.x,
-       py = this.pos.y,
-       ox = this.origin.x,
-       oy = this.origin.y,
-       theta = this.angle;
+  Point.prototype.getAngle = function() {
+    return this.angle
+  };
 
-   var newX = Math.cos(theta) * (px - ox) - Math.sin(theta) * (py - oy) + ox,
-       newY = Math.sin(theta) * (px - ox) + Math.cos(theta) * (py - oy) + oy;
+  Point.prototype.setOrigin = function(origin) {
+    this.origin = $.extend({}, origin);
+    this.updatePos();
+  }
 
-   this.pos.x = newX;
-   this.pos.y = newY;
+  Point.prototype.rotate = function(offset) {
+    this.setAngle(this.getAngle() - offset);
+    this.updatePos();
+  };
+
+  Point.prototype.updatePos = function() {
+    var px = this.origin.x + this.radius,
+        py = this.origin.y,
+        ox = this.origin.x,
+        oy = this.origin.y,
+        theta = this.angle;
+
+    var newX = Math.cos(theta) * (px - ox) - Math.sin(theta) * (py - oy) + ox,
+        newY = Math.sin(theta) * (px - ox) + Math.cos(theta) * (py - oy) + oy;
+ 
+    this.pos.x = newX;
+    this.pos.y = newY;
   };
 })(this);

@@ -27,8 +27,9 @@
         console.log(options.pos);
       } else {
         options.radius = Asteroid.randomRadius(Asteroid.RADIUS);
-        options.pos.x = Math.random() * dimX;
-        options.pos.y = Math.random() * dimY;
+        //options.pos.x = Math.random() * dimX;
+        //options.pos.y = Math.random() * dimY;
+        options.pos = Asteroid.randomOutsidePos(dimX, dimY);
       }
 
       var currentAngle = 0;
@@ -93,6 +94,30 @@
         return true;
       }
       return false;
+    };
+    
+    Asteroid.randomOutsidePos = function(dimX, dimY) {
+      var pos = {};
+
+      var x = (Asteroid.RADIUS/2) + ((Math.random() * Asteroid.RADIUS) * 5);
+      x = Math.round(x);
+      var y = (Asteroid.RADIUS/2) + ((Math.random() * Asteroid.RADIUS) * 5);
+      y = Math.round(y);
+      
+
+      if (Math.random() < 0.5) {
+        pos.x = -(x);
+      } else {
+        pos.x = dimX + x;
+      }
+
+      if (Math.random() < 0.5) {
+        pos.y = -(y);
+      } else {
+        pos.y = dimY + y;
+      }
+
+      return pos;
     };
 
     Asteroid.randomVel = function () {

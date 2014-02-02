@@ -5,16 +5,16 @@
     Asteroids.MovingObject.call(this, options);
 
     this.lifespan = options.lifespan || 30;
-    this.friction = options.friction || 1
+    this.radiusDecay = options.radiusDecay;
   };
 
   Particle.inherits(Asteroids.MovingObject);
 
   Particle.prototype.decay = function () {
     this.lifespan--;
-    this.vel.x *= this.friction;
-    this.vel.y *= this.friction;
-    if (this.radius >= 1.2) this.radius -= .2;
+    this.vel.x *= this.vel.friction;
+    this.vel.y *= this.vel.friction;
+    this.radius *= this.radiusDecay;
   };
 
   Particle.prototype.drawFg = function (ctx) {
@@ -43,5 +43,12 @@
             2 * Math.PI);
 
     ctx.fill();
+  };
+  var particleOpts = {
+    pos: { x: 0, y: 0 },
+    vel: { x: 0, y: 0, friction: 1, wobble: 0 },
+    color: {},
+    lifespan: 1000,
+    lifeline: { option: null, status: null }
   };
 })(this);

@@ -9,16 +9,27 @@
     Asteroid.inherits(Asteroids.MovingObjectPointed);
     Asteroid.COLOR = '#952933';
     Asteroid.STROKE_COLOR = '#FF4657'
+    Asteroid.SMALL_RADIUS = 32;
     Asteroid.RADIUS = 64;
 
-    Asteroid.randomAsteroid = function(dimX, dimY){
+    Asteroid.randomAsteroid = function(dimX, dimY, small, x, y){
       var numPoints = 7 + Math.floor(Math.random() * 4);
-      console.log(numPoints);
       var avgDistance = Math.roundTo((2 * Math.PI / numPoints), 2);
       var distWobble = Math.roundTo(Math.degToRad(15), 2);
 
       var options = {};
-      options.radius = Asteroid.randomRadius();
+      options.pos = {};
+
+      if (small) {
+        options.radius = Asteroid.randomRadius(Asteroid.SMALL_RADIUS);
+        options.pos.x = x + Math.round((Math.random() * 16) - 8);
+        options.pos.y = y + Math.round((Math.random() * 16) - 8);
+        console.log(options.pos);
+      } else {
+        options.radius = Asteroid.randomRadius(Asteroid.RADIUS);
+        options.pos.x = Math.random() * dimX;
+        options.pos.y = Math.random() * dimY;
+      }
 
       var currentAngle = 0;
       var currentWobble = 0;
@@ -37,10 +48,6 @@
           angle: currentAngle
         }));
       }
-
-      options.pos = {};
-      options.pos.x = Math.random() * dimX;
-      options.pos.y = Math.random() * dimY;
 
       options.vel = {};
       options.vel.x = Asteroid.randomVel();
@@ -80,11 +87,19 @@
       });
     };
 
+    Asteroid.prototype.isSmall = function() {
+      console.log(this.radius);
+      if (this.radius < Asteroid.SMALL_RADIUS) {
+        return true;
+      }
+      return false;
+    };
+
     Asteroid.randomVel = function () {
       return (Math.random() * 4) - 2;
     };
 
-    Asteroid.randomRadius = function () {
-      return (Math.random() * (Asteroid.RADIUS / 2)) + (Asteroid.RADIUS / 2);
+    Asteroid.randomRadius = function (max) {
+      return (Math.random() * (max / 2)) + (max / 2);
     };
 })(this);

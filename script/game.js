@@ -12,10 +12,17 @@
     this.bullets = [];
   };
 
-  Game.prototype.addAsteroids = function(numAsteroids) {
+  Game.prototype.addAsteroids = function(numAsteroids, small, x, y) {
     for (var i = 0; i < numAsteroids; i++) {
-      this.asteroids.push(Asteroids.Asteroid.randomAsteroid(Game.DIM_X,
-                                                            Game.DIM_Y));
+      if (small) {
+        this.asteroids.push(Asteroids.Asteroid.randomAsteroid(Game.DIM_X,
+                                                              Game.DIM_Y,
+                                                              true,
+                                                              x, y));
+      } else {
+        this.asteroids.push(Asteroids.Asteroid.randomAsteroid(Game.DIM_X,
+                                                              Game.DIM_Y));
+      }
     }
   };
 
@@ -144,6 +151,11 @@
   };
 
   Game.prototype.handleBulletHit = function(aIdx, bIdx) {
+    var asteroid = this.asteroids[aIdx];
+    if (!asteroid.isSmall()) {
+      var numNew = 1 + (Math.ceil(Math.random() * 2))
+      this.addAsteroids(numNew, true, asteroid.pos.x, asteroid.pos.y);
+    }
     this.asteroids.splice(aIdx, 1);
     this.bullets.splice(bIdx, 1);
   };

@@ -12,14 +12,19 @@
    MovingObjectPointed.inherits(Asteroids.MovingObject);
 
    MovingObjectPointed.prototype.draw = function(ctx) {
-     ctx.fillStyle = this.color;
      ctx.beginPath();
+
      ctx.moveTo(this.points[0].pos.x, this.points[0].pos.y);
+
      for (var i = 1; i < this.points.length; i++) {
        ctx.lineTo(this.points[i].pos.x, this.points[i].pos.y);
      }
+
      ctx.lineTo(this.points[0].pos.x, this.points[0].pos.y);
+
+     ctx.fillStyle = this.color;
      ctx.fill();
+
      if (this.strokeColor) {
        ctx.strokeStyle = this.strokeColor;
        ctx.lineWidth = 2;

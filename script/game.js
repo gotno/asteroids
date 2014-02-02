@@ -10,47 +10,6 @@
       y: Game.DIM_Y/2,
     }, ctx);
     this.bullets = [];
-/* 
-    this.mop = new Asteroids.MovingObjectPointed({
-      pos: { x: 320, y: 240 },
-      vel: { x: 1, y: 0 },
-      radius: 30,
-      color: '#000000',
-      angle: 0,
-      points: [
-        new Asteroids.Point ({
-          radius: 30,
-          origin: { x: 320, y: 240 },
-          angle: 0
-        }),
-        new Asteroids.Point ({
-          radius: 30,
-          origin: { x: 320, y: 240 },
-          angle: Math.PI * 0.25
-        }),
-        new Asteroids.Point ({
-          radius: 30,
-          origin: { x: 320, y: 240 },
-          angle: Math.PI * 0.5
-        }),
-        new Asteroids.Point ({
-          radius: 30,
-          origin: { x: 320, y: 240 },
-          angle: Math.PI * 0.75
-        }),
-        new Asteroids.Point ({
-          radius: 30,
-          origin: { x: 320, y: 240 },
-          angle: Math.PI
-        }),
-        new Asteroids.Point ({
-          radius: 30,
-          origin: { x: 320, y: 240 },
-          angle: 0
-        }),
-      ]
-    });
-// */
   };
 
   Game.prototype.addAsteroids = function(numAsteroids) {
@@ -75,8 +34,6 @@
     });
 
     this.ship.draw(ctx);
-
-//    this.mop.draw(ctx);
   };
 
   Game.prototype.move = function() {
@@ -100,9 +57,6 @@
     });
 
     this.bullets = tempBullets;
-
-//    this.mop.move();
-//    this.mop.rotate(Math.degToRad(.5));
   };
 
   Game.prototype.screenWrap = function(mObj) {
@@ -181,9 +135,11 @@
   };
 
   Game.prototype.fireBullet = function() {
-    var bullet = this.ship.fireBullet(this);
-    if (bullet){
-      this.bullets.push(bullet);
+    if (this.bullets.length < Game.MAX_BULLETS) {
+      var bullet = this.ship.fireBullet(this);
+      if (bullet){
+        this.bullets.push(bullet);
+      }
     }
   };
 
@@ -203,4 +159,5 @@
   Game.INTERVAL_MILLISECONDS = 30;
   Game.DIM_X = 640;
   Game.DIM_Y = 480;
+  Game.MAX_BULLETS = 3;
 })(this);

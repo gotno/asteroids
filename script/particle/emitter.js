@@ -11,6 +11,7 @@
     this.vel = options.vel;
     this.radius = options.radius;
     this.lifespan = options.lifespan;
+    this.color = options.color;
     
     this.particles = [];
   };
@@ -36,10 +37,10 @@
         this.particles.push(new Asteroids.Particle({
           pos: $.extend({}, this.pos),
           vel: vel,
-          color: '#cecece',
           radius: Math.random() * this.radius.radius + this.radius.wobble,
           radiusDecay: this.radius.decay,
-          lifespan: this.lifespan.lifespan + Math.random() * this.lifespan.wobble
+          lifespan: this.lifespan.lifespan + Math.random() * this.lifespan.wobble,
+          color: this.color
         }));
       }
     }
@@ -49,13 +50,10 @@
     var emitter = this;
 
     if (this.particles.length > 0) {
-      this.particles.forEach(function(particle) {
+      this.particles.forEach(function(particle, idx) {
         particle.decay();
         particle.move();
-        particle.drawBg(emitter.ctx);
-      });
-      this.particles.forEach(function(particle, idx) {
-        particle.drawFg(emitter.ctx);
+        particle.draw(emitter.ctx);
         if (particle.lifespan <= 0) {
           emitter.particles.splice(idx, 1);
         }

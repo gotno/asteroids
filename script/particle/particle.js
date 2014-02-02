@@ -17,21 +17,7 @@
     this.radius *= this.radiusDecay;
   };
 
-  Particle.prototype.drawFg = function (ctx) {
-    ctx.fillStyle = Asteroids.Ship.COLOR;
-
-    ctx.beginPath();
-
-    ctx.arc(this.pos.x,
-            this.pos.y,
-            this.radius - 1,
-            0,
-            2 * Math.PI);
-
-    ctx.fill();
-  };
-  
-  Particle.prototype.drawBg = function(ctx) {
+  Particle.prototype.draw = function (ctx) {
     ctx.fillStyle = this.color;
 
     ctx.beginPath();
@@ -44,6 +30,7 @@
 
     ctx.fill();
   };
+  
   var particleOpts = {
     pos: { x: 0, y: 0 },
     vel: { x: 0, y: 0, friction: 1, wobble: 0 },

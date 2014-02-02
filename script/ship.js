@@ -14,11 +14,12 @@
      this.exhaustEmitter = new Asteroids.Emitter({
        pos: $.extend({}, this.pos),
        vel: { x: 6, y: 6, wobble: 3, friction: 0.8 },
-       sputter: 15,
-       rate: { num: 3, wobble: 1 },
-       radius: { radius: 5, wobble: 5, decay: 0.95 },
-       lifespan: { lifespan: 25, wobble: 5 },
-       ctx: ctx
+       sputter: 20,
+       rate: { num: 4, wobble: 2 },
+       radius: { radius: 7, wobble: 5, decay: 0.95 },
+       lifespan: { lifespan: 30, wobble: 5 },
+       ctx: ctx,
+       color: Asteroids.Ship.COLOR
      });
 
      this.emitterDistance = 10;

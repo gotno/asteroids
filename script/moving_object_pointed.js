@@ -5,14 +5,15 @@
      Asteroids.MovingObject.call(this, options);
 
      this.points = options.points;
+     this.rotationSpeed = options.rotationSpeed;
    };
    var MovingObjectPointed = Asteroids.MovingObjectPointed;
    MovingObjectPointed.inherits(Asteroids.MovingObject);
 
    MovingObjectPointed.prototype.draw = function(ctx) {
-     Asteroids.MovingObject.prototype.draw.call(this, ctx);
-     
-     ctx.fillStyle = '#000000';
+     ctx.fillStyle = this.color;
+     ctx.strokeStyle = '#000000';
+     ctx.lineWidth = 2;
      ctx.beginPath();
      ctx.moveTo(this.points[0].pos.x, this.points[0].pos.y);
      for (var i = 1; i < this.points.length; i++) {
@@ -20,6 +21,7 @@
      }
      ctx.lineTo(this.points[0].pos.x, this.points[0].pos.y);
      ctx.fill();
+     ctx.stroke();
    };
 
    MovingObjectPointed.prototype.rotate = function(angle) {
@@ -30,6 +32,8 @@
 
    MovingObjectPointed.prototype.move = function(angle) {
      Asteroids.MovingObject.prototype.move.call(this);
+
+     this.rotate(this.rotationSpeed);
 
      var that = this;
      this.points.forEach(function(point) {

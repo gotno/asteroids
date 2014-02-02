@@ -4,7 +4,7 @@
   var Point = Asteroids.Point = function(options) {
     this.pos = { x: 0, y: 0 };
     this.radius = options.radius;
-    this.origin = options.origin;
+    this.setOrigin(options.origin);
     this.setAngle(-(options.angle));
     this.rotate(0);
   };

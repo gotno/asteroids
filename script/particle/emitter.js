@@ -70,7 +70,6 @@
 
     if (particle[attr][val] == particle.lifeline.trigger) {
       this.particles.splice(idx, 1);
-      console.log('death!');
       return true;
     }
   };

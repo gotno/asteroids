@@ -115,11 +115,16 @@
      this.exhaustEmitter.particleStep();
    }
 
-   Ship.prototype.attachEmitter = function () {
-     // this needs to be a copy
+   Ship.prototype.attachEmitter = function (linearOffset, angleOffset) {
+     // write deep copy for emitterOpts
      var emitterOpts = Ship.exhaustEmitterOptions;
+
      emitterOpts.pos = $.extend({}, this.pos);
      emitterOpts.ctx = this.ctx;
+
+     //emitterOpts.emitterPoint.origin = $.extend({}, this.pos);
+     //emitterOpts.emitterPoint.radius = linearOffset;
+     //emitterOpts.emitterPoint.angle = this.angle + angleOffset;
 
      this.exhaustEmitter = new Asteroids.Emitter(emitterOpts);
    };
@@ -143,13 +148,18 @@
    Ship.COLOR = "#7dabca";
 
    Ship.exhaustEmitterOptions = {
+     //emitterPoint: {
+     //  origin: {},
+     //  radius: 0,
+     //  angle: 0
+     //},
      emitter: {
-       pos: {},
+     //  pos: {},
        vel: { x: 6, y: 6, wobble: { amt: 3, weight: 0 } },
        rate: { num: 4, wobble: { amt: 2, weight: 0 } },
        radius: { radius: 8, wobble: { amt: 4, weight: 0 } },
        sputter: 20,
-       angle: 0,
+     //  angle: 0,
        layers: 2
      },
      particles: {

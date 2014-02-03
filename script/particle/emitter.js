@@ -97,19 +97,4 @@
 
     return wobbledVals;
   };
-
-  var emitterOpts = {
-    rate: { num: null, wobble: null },
-    sputter: 0,
-    pos: { x: 0, y: 0 },
-    angle: 0,
-    particleOpts: {
-      pos: { x: 0, y: 0 },
-      vel: { x: 0, y: 0, friction: 1, wobble: 0 },
-      color: {},
-      lifespan: 1000,
-      lifeline: { option: null, status: null }
-    }
-  }
-
 })(this);

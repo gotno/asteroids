@@ -8,31 +8,11 @@
      options.radius = Ship.RADIUS;
      options.color = Ship.COLOR;
      options.angle = 270;
+     this.ctx = ctx;
 
      Asteroids.MovingObject.call(this, options);
 
-     this.exhaustEmitter = new Asteroids.Emitter({
-       emitter: {
-         pos: $.extend({}, this.pos),
-         vel: { x: 6, y: 6, wobble: { amt: 3, weight: 0 } },
-         rate: { num: 4, wobble: { amt: 2, weight: 0 } },
-         radius: { radius: 8, wobble: { amt: 4, weight: 0 } },
-         sputter: 20,
-         angle: 0,
-         layers: 2
-       },
-       particles: {
-         vel: { decay: { amt: 0.8, weight: 0, limit: .1 } },
-         radius: { radius: 7, decay: { amt: 0.95, weight: 0, limit: 0 } },
-         angle: 0,
-         rotationSpeed: 0,
-         lifespan: { span: 20, wobble: { amt: 5, weight: 1 } },
-         lifeline: { attr: 'radius', val: 'radius', trigger: 0 },
-         layers: [{ color: '#fcfcfc', radiusOffset: 0 },
-                  { color: Asteroids.Ship.COLOR, radiusOffset: -2 }]
-       },
-       ctx: ctx,
-     });
+     this.attachEmitter();
 
      /*
      this.exhaustEmitter = new Asteroids.Emitter({
@@ -135,6 +115,15 @@
      this.exhaustEmitter.particleStep();
    }
 
+   Ship.prototype.attachEmitter = function () {
+     // this needs to be a copy
+     var emitterOpts = Ship.exhaustEmitterOptions;
+     emitterOpts.pos = $.extend({}, this.pos);
+     emitterOpts.ctx = this.ctx;
+
+     this.exhaustEmitter = new Asteroids.Emitter(emitterOpts);
+   };
+
    Ship.rotatePoint = function(px, py, ox, oy, theta) {
      var px = px;
      var py = py;
@@ -152,4 +141,26 @@
    Ship.IMPULSE = 0.20;
    Ship.BULLET_SPEED = 12;
    Ship.COLOR = "#7dabca";
+
+   Ship.exhaustEmitterOptions = {
+     emitter: {
+       pos: {},
+       vel: { x: 6, y: 6, wobble: { amt: 3, weight: 0 } },
+       rate: { num: 4, wobble: { amt: 2, weight: 0 } },
+       radius: { radius: 8, wobble: { amt: 4, weight: 0 } },
+       sputter: 20,
+       angle: 0,
+       layers: 2
+     },
+     particles: {
+       vel: { decay: { amt: 0.8, weight: 0, limit: .1 } },
+       radius: { radius: 7, decay: { amt: 0.95, weight: 0, limit: 0 } },
+       angle: 0,
+       rotationSpeed: 0,
+       lifespan: { span: 20, wobble: { amt: 5, weight: 1 } },
+       lifeline: { attr: 'radius', val: 'radius', trigger: 0 },
+       layers: [{ color: '#fcfcfc', radiusOffset: 0 },
+                { color: Ship.COLOR, radiusOffset: -2 }]
+     }
+   }
 })(this);

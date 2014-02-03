@@ -2,29 +2,38 @@
   var Asteroids = root.Asteroids = (root.Asteroids || {});
 
   var Particle = Asteroids.Particle = function(options) {
+    var tempRadius = options.radius;
+    options.radius = options.radius.radius;
+
     Asteroids.MovingObject.call(this, options);
 
-    this.lifespan = options.lifespan || 30;
-    this.radiusDecay = options.radiusDecay;
+    this.radius = tempRadius;
+    this.lifespan = options.lifespan;
+    this.lifeline = options.lifeline;
+    this.layers = options.layers;
   };
 
   Particle.inherits(Asteroids.MovingObject);
 
   Particle.prototype.decay = function () {
     this.lifespan--;
-    this.vel.x *= this.vel.friction;
-    this.vel.y *= this.vel.friction;
-    this.radius *= this.radiusDecay;
+    Particle.decayValues(this.vel);
+    Particle.decayValues(this.radius);
   };
 
-  Particle.prototype.draw = function (ctx) {
-    ctx.fillStyle = this.color;
+  Particle.prototype.draw = function (layer, ctx) {
+    var layer = this.layers[layer];
+
+    ctx.fillStyle = layer.color;
 
     ctx.beginPath();
 
+    var radius = this.radius.radius + layer.radiusOffset;
+    if (radius < 0) radius = 0;
+
     ctx.arc(this.pos.x,
             this.pos.y,
-            this.radius,
+            radius,
             0,
             2 * Math.PI);
 
@@ -66,14 +75,4 @@
       }
     }
   };
-  
-  var particleOpts = {
-    pos: { x: 0, y: 0 },
-    vel: { x: 0, y: 0, friction: 1, wobble: 0 },
-    color: {},
-    lifespan: 1000,
-    lifeline: { option: null, status: null }
-  };
 })(this);
-
-

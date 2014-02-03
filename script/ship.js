@@ -11,7 +11,6 @@
 
      Asteroids.MovingObject.call(this, options);
 
-     /*
      this.exhaustEmitter = new Asteroids.Emitter({
        emitter: {
          pos: $.extend({}, this.pos),
@@ -23,16 +22,19 @@
          layers: 2
        },
        particles: {
-         vel: { x: 6, y: 6, decay: { amt: 0.8, weight: 0, limit: .1 } },
-         radius: { radius: 7, decay { amt: 0.95, weight: 0 } },
+         vel: { decay: { amt: 0.8, weight: 0, limit: .1 } },
+         radius: { radius: 7, decay: { amt: 0.95, weight: 0, limit: 0 } },
+         angle: 0,
+         rotationSpeed: 0,
          lifespan: { span: 20, wobble: { amt: 5, weight: 1 } },
-         lifeline: { atr: 'lifespan', trigger: 0 }
+         lifeline: { attr: 'radius', val: 'radius', trigger: 0 },
          layers: [{ color: '#fcfcfc', radiusOffset: 0 },
                   { color: Asteroids.Ship.COLOR, radiusOffset: -2 }]
-       }
+       },
        ctx: ctx,
      });
-     */
+
+     /*
      this.exhaustEmitter = new Asteroids.Emitter({
        pos: $.extend({}, this.pos),
        vel: { x: 6, y: 6, wobble: 3, friction: 0.8 },
@@ -43,6 +45,7 @@
        ctx: ctx,
        color: Asteroids.Ship.COLOR
      });
+     */
 
      this.emitterDistance = 10;
    }

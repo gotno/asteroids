@@ -2,45 +2,44 @@
   var Asteroids = root.Asteroids = (root.Asteroids || {});
   
   var Emitter = Asteroids.Emitter = function(options) {
-    this.rate = options.rate;
-    this.sputter = options.sputter || 0;
-    this.pos = options.pos || { x: 0, y: 0 };
-    this.angle = options.angle || 90;
-    this.angle = Math.degToRad(this.angle);
-    this.ctx = options.ctx;
-    this.vel = options.vel;
-    this.radius = options.radius;
-    this.lifespan = options.lifespan;
-    this.color = options.color;
+    this.eOpts = options.emitter;
+    this.pOpts = options.particles;
     
+    this.pos = this.eOpts.pos;
+    this.angle = this.eOpts.angle
+    this.ctx = options.ctx;
     this.particles = [];
   };
 
   Emitter.prototype.emit = function() {
-    if ((Math.random() * 100) > this.sputter) {
-      var rateWobble = Math.round(Math.random() * this.rate.wobble);
+    var eOpts = this.eOpts,
+        pOpts = this.pOpts;
 
-      if (Math.random() > 0.5) {
-        var numParticles = this.rate.num - rateWobble;
-      } else {
-        var numParticles = this.rate.num + rateWobble;
-      }
-
+    if (Math.random() * 100 > eOpts.sputter) {
+      var numParticles = Emitter.wobbleValues(eOpts.rate).num;
 
       for (var i = 0; i < numParticles; i++) {
         var vel = {};
-        vel.x = (Math.sin(this.angle + Math.degToRad(90)) * this.vel.x) + (Math.random() * this.vel.wobble - this.vel.wobble/2);
-        vel.y = (Math.sin(this.angle + Math.degToRad(90)) * this.vel.y) + (Math.random() * this.vel.wobble - this.vel.wobble/2);
-        vel.friction = this.vel.friction;
+        var wVel = Emitter.wobbleValues(eOpts.vel);
+        vel.x =  Math.sin(this.angle) * wVel.x;
+        vel.y = -Math.cos(this.angle) * wVel.y;
+        vel.decay = pOpts.vel.decay;
 
-        var radius
+        var radius = Emitter.wobbleValues(eOpts.radius);
+        radius.decay = pOpts.radius.decay;
+
+        var lifespan = Emitter.wobbleValues(eOpts.lifespan);
+        lifespan.span = Math.round(lifespan.span);
+
         this.particles.push(new Asteroids.Particle({
           pos: $.extend({}, this.pos),
           vel: vel,
-          radius: Math.random() * this.radius.radius + this.radius.wobble,
-          radiusDecay: this.radius.decay,
-          lifespan: this.lifespan.lifespan + Math.random() * this.lifespan.wobble,
-          color: this.color
+          angle: pOpts.angle,
+          rotationSpeed: pOpts.rotationSpeed,
+          radius: radius,
+          lifespan: lifespan,
+          lifeline: pOpts.lifeline,
+          layers: pOpts.layers
         }));
       }
     }
@@ -50,14 +49,31 @@
     var emitter = this;
 
     if (this.particles.length > 0) {
-      this.particles.forEach(function(particle, idx) {
-        particle.decay();
-        particle.move();
-        particle.draw(emitter.ctx);
-        if (particle.lifespan <= 0) {
-          emitter.particles.splice(idx, 1);
-        }
-      });
+      for (var i = 0; i < this.pOpts.layers.length; i++) {
+        this.particles.forEach(function(particle, idx) {
+          particle.decay();
+          particle.move();
+          particle.draw(i, emitter.ctx);
+
+          if (i == emitter.pOpts.layers.length - 1) {
+            emitter.possibleDeath(idx);
+          }
+        });
+      }
+    }
+  };
+
+  Emitter.prototype.possibleDeath = function(idx) {
+    var particle = this.particles[idx];
+    var attr = particle.lifeline.attr;
+    var val = particle.lifeline.val;
+
+
+    console.log(particle);
+    if (particle[attr][val] == particle.lifeline.trigger) {
+      this.particles.splice(idx, 0);
+      console.log('death!');
+      return true;
     }
   };
 
@@ -73,7 +89,8 @@
         break;
       case 0:
         var amt = vals.wobble.amt;
-        wobbledVals[key] = vals[key] + (Math.random() * amt) - (amt * 2);
+        wobbledVals[key] = vals[key]; 
+        wobbledVals[key] += ((Math.random() * amt) - (Math.random() * amt));
         break;
       case 1:
         wobbledVals[key] = vals[key] + Math.random() * vals.wobble.amt;

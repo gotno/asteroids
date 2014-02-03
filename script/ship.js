@@ -116,8 +116,8 @@
    }
 
    Ship.prototype.attachEmitter = function (linearOffset, angleOffset) {
-     // write deep copy for emitterOpts
-     var emitterOpts = Ship.exhaustEmitterOptions;
+     var emitterOpts = $.extend(true, {}, Ship.exhaustEmitterOptions);
+     console.log(emitterOpts);
 
      emitterOpts.pos = $.extend({}, this.pos);
      emitterOpts.ctx = this.ctx;
@@ -154,7 +154,7 @@
      //  angle: 0
      //},
      emitter: {
-     //  pos: {},
+       pos: {},
        vel: { x: 6, y: 6, wobble: { amt: 3, weight: 0 } },
        rate: { num: 4, wobble: { amt: 2, weight: 0 } },
        radius: { radius: 8, wobble: { amt: 4, weight: 0 } },

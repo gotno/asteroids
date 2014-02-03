@@ -68,10 +68,8 @@
     var attr = particle.lifeline.attr;
     var val = particle.lifeline.val;
 
-
-    console.log(particle);
     if (particle[attr][val] == particle.lifeline.trigger) {
-      this.particles.splice(idx, 0);
+      this.particles.splice(idx, 1);
       console.log('death!');
       return true;
     }

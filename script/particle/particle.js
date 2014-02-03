@@ -53,10 +53,10 @@
         }
         break;
       case 0:
-        if (vals[key] > vals.decay.limit) {
-          vals[key] *= vals.decay.amt;
-        } else {
+        if (vals[key] < vals.decay.limit + .5) {
           vals[key] = vals.decay.limit;
+        } else {
+          vals[key] *= vals.decay.amt;
         }
         break;
       case 1:
@@ -67,9 +67,8 @@
         }
         break;
       default:
-        if (vals[key] < vals.decay.limit) {
-          vals[key] *= vals.decay.amt;
-        } else {
+        vals[key] *= vals.decay.amt;
+        if (vals[key] > vals.decay.limit) {
           vals[key] = vals.decay.limit;
         }
       }

@@ -30,6 +30,42 @@
 
     ctx.fill();
   };
+
+  Particle.decayValues = function(vals) {
+    for (var key in vals) {
+      if (typeof vals[key] === 'object') continue;
+
+      switch (vals.decay.weight) {
+      case -1:
+        if (vals[key] > vals.decay.limit) {
+          vals[key] -= vals.decay.amt;
+        } else {
+          vals[key] = vals.decay.limit;
+        }
+        break;
+      case 0:
+        if (vals[key] > vals.decay.limit) {
+          vals[key] *= vals.decay.amt;
+        } else {
+          vals[key] = vals.decay.limit;
+        }
+        break;
+      case 1:
+        if (vals[key] > vals.decay.limit) {
+          vals[key] += vals.decay.amt;
+        } else {
+          vals[key] = vals.decay.limit;
+        }
+        break;
+      default:
+        if (vals[key] < vals.decay.limit) {
+          vals[key] *= vals.decay.amt;
+        } else {
+          vals[key] = vals.decay.limit;
+        }
+      }
+    }
+  };
   
   var particleOpts = {
     pos: { x: 0, y: 0 },
@@ -39,3 +75,5 @@
     lifeline: { option: null, status: null }
   };
 })(this);
+
+

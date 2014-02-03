@@ -61,6 +61,29 @@
     }
   };
 
+  Emitter.wobbleValues = function(vals) {
+    wobbledVals = {};
+
+    for (var key in vals) {
+      if (typeof vals[key] === 'object') continue;
+
+      switch (vals.wobble.weight) {
+      case -1:
+        wobbledVals[key] = vals[key] - Math.random() * vals.wobble.amt;
+        break;
+      case 0:
+        var amt = vals.wobble.amt;
+        wobbledVals[key] = vals[key] + (Math.random() * amt) - (amt * 2);
+        break;
+      case 1:
+        wobbledVals[key] = vals[key] + Math.random() * vals.wobble.amt;
+        break;
+      }
+    }
+
+    return wobbledVals;
+  };
+
   var emitterOpts = {
     rate: { num: null, wobble: null },
     sputter: 0,

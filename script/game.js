@@ -11,6 +11,8 @@
     }, ctx);
     this.bullets = [];
     this.score = 0;
+
+    this.HUD = new Asteroids.HUD(ctx);
   };
 
   Game.prototype.addSmallAsteroids = function(numAsteroids, asteroid) {
@@ -40,6 +42,7 @@
     });
 
     this.ship.draw(ctx);
+    this.HUD.drawInPlay(this.score);
   };
 
   Game.prototype.move = function() {
@@ -153,11 +156,11 @@
     if (!asteroid.isSmall()) {
       var numNew = 1 + (Math.ceil(Math.random() * 2))
       this.addSmallAsteroids(numNew, $.extend({}, asteroid));
-      this.score += 2;
+      this.score += 1;
     } else {
       var numNew = 1 + (Math.ceil(Math.random() * 2))
       this.addAsteroids(numNew);
-      this.score += 1;
+      this.score += 2;
     }
     this.asteroids.splice(aIdx, 1);
     this.bullets.splice(bIdx, 1);

@@ -59,11 +59,11 @@
    };
 
    Ship.prototype.draw = function(ctx) {
-     Asteroids.MovingObjectPointed.prototype.draw.call(this, ctx);
-
      this.exhaustEmitter.setOrigin($.extend({}, this.pos));
      this.exhaustEmitter.setAngle(this.angle - Math.PI/2);
      this.exhaustEmitter.particleStep();
+
+     Asteroids.MovingObjectPointed.prototype.draw.call(this, ctx);
    }
 
    Ship.prototype.attachEmitter = function (linearOffset, angleOffset) {

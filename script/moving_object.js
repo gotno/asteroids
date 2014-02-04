@@ -10,12 +10,9 @@
     this.rotationSpeed = options.rotationSpeed || 0;
 
     this.color = options.color;
-  }
 
-  MovingObject.prototype.move = function() {
-    this.pos.x += this.vel.x;
-    this.pos.y += this.vel.y;
-  };
+    this.emitters = [];
+  }
 
   MovingObject.prototype.draw = function(ctx) {
     ctx.strokeStyle = this.color;
@@ -41,7 +38,39 @@
     return ((this.radius + otherObject.radius) > distance);
   };
 
+  MovingObject.prototype.move = function() {
+    this.pos.x += this.vel.x;
+    this.pos.y += this.vel.y;
+
+    this.rotate(this.rotationSpeed);
+
+    var that = this;
+    this.emitters.forEach(function(emitter) {
+      emitter.updateOrigin($.extend({}, that.pos));
+    });
+  };
+
   MovingObject.prototype.rotate = function (angle) {
     this.angle -= angle;
+    var that = this;
+    this.emitters.forEach(function(emitter) {
+      emitter.rotate(angle);
+    });
   };
+
+
+  MovingObject.prototype.attachEmitter = function (emitterOpts,
+                                                   linearOffset,
+                                                   angleOffset) {
+
+     var emitterOpts = $.extend(true, {}, emitterOpts);
+
+     emitterOpts.ctx = this.ctx;
+
+     emitterOpts.point.origin = $.extend({}, this.pos);
+     emitterOpts.point.radius = linearOffset;
+     emitterOpts.point.angle = this.angle + angleOffset;
+
+     this.emitters.push(new Asteroids.Emitter(emitterOpts));
+   };
 })(this);

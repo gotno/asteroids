@@ -42,8 +42,6 @@
    MovingObjectPointed.prototype.move = function(angle) {
      Asteroids.MovingObject.prototype.move.call(this);
 
-     this.rotate(this.rotationSpeed);
-
      var that = this;
      this.points.forEach(function(point) {
        point.setOrigin(that.pos);

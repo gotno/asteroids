@@ -181,7 +181,7 @@
   };
 
   Game.INTERVAL_MILLISECONDS = 30;
-  Game.DIM_X = 640;
-  Game.DIM_Y = 480;
-  Game.MAX_BULLETS = 3;
+  Game.DIM_X = 800;
+  Game.DIM_Y = 600;
+  Game.MAX_BULLETS = 5;
 })(this);

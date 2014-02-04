@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>ASTEROIDS</title>
+  <link rel='stylesheet' type='text/css' href='index.css'>
   <script src='./assets/keymaster.js'></script>
   <script src='./assets/jquery-1.11.0.js'></script>
   <script src='./script/util.js'></script>
@@ -17,11 +18,13 @@
   <script src='./script/particle/particle.js'></script>
 </head>
   <body>
-    <canvas width="640" height="480"></canvas>
-    <script>
-      var canvas = document.getElementsByTagName('canvas')[0];
-      roidGame = new Asteroids.Game(canvas.getContext('2d'));
-      roidGame.start();
-    </script>
+    <div id="container">
+      <canvas width="800" height="600"></canvas>
+      <script>
+        var canvas = document.getElementsByTagName('canvas')[0];
+        game = new Asteroids.Game(canvas.getContext('2d'));
+        game.start();
+      </script>
+    </div>
   </body>
 </html>

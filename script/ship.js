@@ -7,7 +7,7 @@
      options.vel = { x: 0, y: 0 };
      options.radius = Ship.RADIUS;
      options.color = Ship.COLOR;
-     options.angle = 270;
+     options.angle = Math.PI;
 
      this.ctx = ctx;
 
@@ -41,8 +41,8 @@
    Ship.inherits(Asteroids.MovingObjectPointed);
 
    Ship.prototype.impulse = function(ximp, yimp) {
-     this.vel.x += ( Math.sin(this.angle + Math.degToRad(90)) * Ship.IMPULSE );
-     this.vel.y += (-Math.cos(this.angle + Math.degToRad(90)) * Ship.IMPULSE );
+     this.vel.x += ( Math.sin(this.angle - Math.PI) * Ship.IMPULSE );
+     this.vel.y += (-Math.cos(this.angle - Math.PI) * Ship.IMPULSE );
      this.exhaustEmitter.emit();
    };
    
@@ -51,8 +51,8 @@
      options.pos = $.extend({}, this.pos);
 
      options.vel = {};
-     options.vel.x =  Math.sin(this.angle + Math.degToRad(90)) * Ship.BULLET_SPEED;
-     options.vel.y = -Math.cos(this.angle + Math.degToRad(90)) * Ship.BULLET_SPEED;
+     options.vel.x =  Math.sin(this.angle - Math.PI) * Ship.BULLET_SPEED;
+     options.vel.y = -Math.cos(this.angle - Math.PI) * Ship.BULLET_SPEED;
 
      var bullet = new Asteroids.Bullet(game, options);
      return bullet;
@@ -62,7 +62,7 @@
      Asteroids.MovingObjectPointed.prototype.draw.call(this, ctx);
 
      this.exhaustEmitter.setOrigin($.extend({}, this.pos));
-     this.exhaustEmitter.setAngle(this.angle - Math.PI);
+     this.exhaustEmitter.setAngle(this.angle - Math.PI/2);
      this.exhaustEmitter.particleStep();
    }
 

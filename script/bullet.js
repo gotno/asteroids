@@ -11,17 +11,6 @@
 
   Bullet.inherits(Asteroids.MovingObject);
 
-  Bullet.prototype.hitAsteroids = function () {
-    var bullet = this;
-    var game = this.game
-
-    game.asteroids.forEach(function(asteroid) {
-      if (asteroid.isCollidedWith(bullet)) {
-      //  game.
-      }
-    })
-  };
-
   Bullet.RADIUS = 2;
   Bullet.COLOR = "#abef86";
 }

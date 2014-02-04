@@ -5,7 +5,7 @@
     this.pos = options.pos;
     this.vel = options.vel;
     this.radius = options.radius;
-    this.angle = Math.degToRad(options.angle);
+    this.angle = options.angle;
 
     this.color = options.color;
   }

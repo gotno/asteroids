@@ -26,8 +26,6 @@
     ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
     ctx.fillRect(0, 0, dimX, dimY);
 
-    console.log('game over', dimY);
-
     ctx.fillStyle = '#abef86'
     ctx.font = 'bold 24px sans-serif';
     ctx.textBaseLine = 'middle';

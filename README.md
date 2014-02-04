@@ -9,6 +9,5 @@ Hand-rolled particle effects system.
 You can play it here: [ASTEROIDS](http://gotno.github.io/asteroids/) 
 
 ### To do
-  + Move rotation function to MovingObject
-  + Add attachEmitter functionality to MovingObject
   + Add leaderboards
+  + Fix weird math on Ship

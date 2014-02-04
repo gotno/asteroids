@@ -11,6 +11,7 @@
     }, ctx);
     this.bullets = [];
     this.score = 0;
+    this.gameOver = false;
 
     this.HUD = new Asteroids.HUD(ctx);
   };
@@ -42,7 +43,12 @@
     });
 
     this.ship.draw(ctx);
-    this.HUD.drawInPlay(this.score);
+
+    if (!this.gameOver) {
+      this.HUD.drawInPlay(this.score);
+    } else {
+      this.HUD.drawGameOver(this.score);
+    }
   };
 
   Game.prototype.move = function() {
@@ -128,7 +134,7 @@
     var game = this;
     this.asteroids.forEach(function(asteroid, aIdx){
       if (asteroid.isCollidedWith(game.ship)) {
-        console.log('score: ', game.score);
+        game.gameOver = true;
         //game.stop();
       }
 

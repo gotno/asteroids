@@ -7,6 +7,8 @@
     this.radius = options.radius;
     this.angle = options.angle;
 
+    this.rotationSpeed = options.rotationSpeed || 0;
+
     this.color = options.color;
   }
 
@@ -37,5 +39,9 @@
     var distance = Math.sqrt(dx + dy);
 
     return ((this.radius + otherObject.radius) > distance);
+  };
+
+  MovingObject.prototype.rotate = function (angle) {
+    this.angle -= angle;
   };
 })(this);

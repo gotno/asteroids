@@ -62,6 +62,7 @@
      this.exhaustEmitter.setOrigin($.extend({}, this.pos));
      this.exhaustEmitter.setAngle(this.angle - Math.PI/2);
      this.exhaustEmitter.particleStep();
+     console.log(this.angle);
 
      Asteroids.MovingObjectPointed.prototype.draw.call(this, ctx);
    }

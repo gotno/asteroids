@@ -8,6 +8,7 @@
      options.radius = Ship.RADIUS;
      options.color = Ship.COLOR;
      options.angle = 270;
+
      this.ctx = ctx;
 
      options.points = [
@@ -75,19 +76,6 @@
      emitterOpts.point.angle = this.angle + angleOffset;
 
      this.exhaustEmitter = new Asteroids.Emitter(emitterOpts);
-   };
-
-   Ship.rotatePoint = function(px, py, ox, oy, theta) {
-     var px = px;
-     var py = py;
-     var ox = ox;
-     var oy = oy;
-     var theta = theta;
-
-     newX = Math.cos(theta) * (px - ox) - Math.sin(theta) * (py - oy) + ox;
-     newY = Math.sin(theta) * (px - ox) + Math.cos(theta) * (py - oy) + oy;
-
-     return { x: newX, y: newY };
    };
 
    Ship.RADIUS = 8;

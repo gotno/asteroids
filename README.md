@@ -11,7 +11,4 @@ You can play it here: [ASTEROIDS](http://gotno.github.io/asteroids/)
 ### To do
   + Move rotation function to MovingObject
   + Add attachEmitter functionality to MovingObject
-  + Convert Ship to movingObjectPointed
-  + Upgrade Emitter to inherit from Point
   + Add leaderboards
-  + Add HUD

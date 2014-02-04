@@ -10,11 +10,34 @@
      options.angle = 270;
      this.ctx = ctx;
 
-     Asteroids.MovingObject.call(this, options);
+     options.points = [
+       new Asteroids.Point({
+         origin: $.extend({}, pos),
+         radius: Ship.RADIUS,
+         angle: Math.PI/2
+       }),
+       new Asteroids.Point({
+         origin: $.extend({}, pos),
+         radius: Ship.RADIUS,
+         angle: Math.PI/2 + Math.degToRad(130)
+       }),
+       new Asteroids.Point({
+         origin: $.extend({}, pos),
+         radius: 0,
+         angle: 0
+       }),
+       new Asteroids.Point({
+         origin: $.extend({}, pos),
+         radius: Ship.RADIUS,
+         angle: Math.PI/2 - Math.degToRad(130)
+       })
+     ];
+     
 
+     Asteroids.MovingObjectPointed.call(this, options);
      this.attachEmitter(20, Math.PI);
    }
-   Ship.inherits(Asteroids.MovingObject);
+   Ship.inherits(Asteroids.MovingObjectPointed);
 
    Ship.prototype.impulse = function(ximp, yimp) {
      this.vel.x += ( Math.sin(this.angle + Math.degToRad(90)) * Ship.IMPULSE );
@@ -22,10 +45,6 @@
      this.exhaustEmitter.emit();
    };
    
-   Ship.prototype.rotate = function(degrees) {
-     this.angle += Math.degToRad(degrees);
-   };
-
    Ship.prototype.fireBullet = function(game) {
      var options = {};
      options.pos = $.extend({}, this.pos);
@@ -39,49 +58,7 @@
    };
 
    Ship.prototype.draw = function(ctx) {
-     var initOpts = { 
-       x: this.pos.x + Ship.RADIUS,
-       y: this.pos.y
-     };
-
-     var bow  = $.extend({}, initOpts);
-     bow.angle = this.angle;
-
-     var port = $.extend({}, initOpts);
-     port.angle = this.angle + Math.degToRad(130);
-
-     var star = $.extend({}, initOpts);
-     star.angle = this.angle - Math.degToRad(130);
-
-     var rotatedBow = Ship.rotatePoint(bow.x,
-                                       bow.y,
-                                       this.pos.x,
-                                       this.pos.y,
-                                       bow.angle);
-
-     var rotatedPort = Ship.rotatePoint(port.x,
-                                        port.y,
-                                        this.pos.x,
-                                        this.pos.y,
-                                        port.angle);
-
-     var rotatedStar = Ship.rotatePoint(star.x,
-                                        star.y,
-                                        this.pos.x,
-                                        this.pos.y,
-                                        star.angle);
-
-
-     ctx.fillStyle = this.color;
-
-     ctx.moveTo(rotatedStar.x, rotatedStar.y);
-     ctx.beginPath();
-     ctx.lineTo(rotatedBow.x, rotatedBow.y);
-     ctx.lineTo(rotatedPort.x, rotatedPort.y);
-     ctx.lineTo(this.pos.x, this.pos.y);
-     ctx.lineTo(rotatedStar.x, rotatedStar.y);
-     ctx.closePath();
-     ctx.fill();
+     Asteroids.MovingObjectPointed.prototype.draw.call(this, ctx);
 
      this.exhaustEmitter.setOrigin($.extend({}, this.pos));
      this.exhaustEmitter.setAngle(this.angle - Math.PI);

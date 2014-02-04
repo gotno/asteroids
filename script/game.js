@@ -109,8 +109,8 @@
 
   Game.prototype.checkKeyPresses = function() {
     if(key.isPressed('up')) this.ship.impulse();
-    if(key.isPressed('left')) this.ship.rotate(-10);
-    if(key.isPressed('right')) this.ship.rotate(10);
+    if(key.isPressed('left')) this.ship.rotate(Math.degToRad(10));
+    if(key.isPressed('right')) this.ship.rotate(Math.degToRad(-10));
   }
 
   Game.prototype.addKeyBindings = function() {
@@ -125,8 +125,6 @@
     var game = this;
     this.asteroids.forEach(function(asteroid, aIdx){
       if (asteroid.isCollidedWith(game.ship)) {
-        //console.log("hit, over.");
-        //alert("GAME OVER!!!!")
         console.log('score: ', game.score);
         //game.stop();
       }

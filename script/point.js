@@ -6,7 +6,6 @@
     this.radius = options.radius;
     this.setOrigin(options.origin);
     this.setAngle(-(options.angle));
-    this.rotate(0);
   };
 
   Point.prototype.setAngle = function(angle) {

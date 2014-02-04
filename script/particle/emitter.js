@@ -2,14 +2,17 @@
   var Asteroids = root.Asteroids = (root.Asteroids || {});
   
   var Emitter = Asteroids.Emitter = function(options) {
+    var pointOpts = options.point;
+    Asteroids.Point.call(this, pointOpts);
+
     this.eOpts = options.emitter;
     this.pOpts = options.particles;
     
-    this.pos = this.eOpts.pos;
-    this.angle = this.eOpts.angle
     this.ctx = options.ctx;
     this.particles = [];
   };
+  Emitter.inherits(Asteroids.Point);
+  
 
   Emitter.prototype.emit = function() {
     var eOpts = this.eOpts,

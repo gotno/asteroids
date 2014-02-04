@@ -12,22 +12,7 @@
 
      Asteroids.MovingObject.call(this, options);
 
-     this.attachEmitter();
-
-     /*
-     this.exhaustEmitter = new Asteroids.Emitter({
-       pos: $.extend({}, this.pos),
-       vel: { x: 6, y: 6, wobble: 3, friction: 0.8 },
-       sputter: 20,
-       rate: { num: 4, wobble: 2 },
-       radius: { radius: 7, wobble: 5, decay: 0.95 },
-       lifespan: { lifespan: 20, wobble: 5 },
-       ctx: ctx,
-       color: Asteroids.Ship.COLOR
-     });
-     */
-
-     this.emitterDistance = 10;
+     this.attachEmitter(20, Math.PI);
    }
    Ship.inherits(Asteroids.MovingObject);
 
@@ -98,33 +83,19 @@
      ctx.closePath();
      ctx.fill();
 
-     var emitterOpts = {
-       x: this.pos.x + Ship.RADIUS + this.emitterDistance,
-       y: this.pos.y,
-       angle: this.angle - Math.PI
-     }
-     var rotatedEmitter = Ship.rotatePoint(emitterOpts.x,
-                                           emitterOpts.y,
-                                           this.pos.x,
-                                           this.pos.y,
-                                           emitterOpts.angle);
-     this.exhaustEmitter.pos.x = rotatedEmitter.x;
-     this.exhaustEmitter.pos.y = rotatedEmitter.y;
-     this.exhaustEmitter.angle = emitterOpts.angle;
-
+     this.exhaustEmitter.setOrigin($.extend({}, this.pos));
+     this.exhaustEmitter.setAngle(this.angle - Math.PI);
      this.exhaustEmitter.particleStep();
    }
 
    Ship.prototype.attachEmitter = function (linearOffset, angleOffset) {
      var emitterOpts = $.extend(true, {}, Ship.exhaustEmitterOptions);
-     console.log(emitterOpts);
 
-     emitterOpts.pos = $.extend({}, this.pos);
      emitterOpts.ctx = this.ctx;
 
-     //emitterOpts.emitterPoint.origin = $.extend({}, this.pos);
-     //emitterOpts.emitterPoint.radius = linearOffset;
-     //emitterOpts.emitterPoint.angle = this.angle + angleOffset;
+     emitterOpts.point.origin = $.extend({}, this.pos);
+     emitterOpts.point.radius = linearOffset;
+     emitterOpts.point.angle = this.angle + angleOffset;
 
      this.exhaustEmitter = new Asteroids.Emitter(emitterOpts);
    };
@@ -148,18 +119,16 @@
    Ship.COLOR = "#7dabca";
 
    Ship.exhaustEmitterOptions = {
-     //emitterPoint: {
-     //  origin: {},
-     //  radius: 0,
-     //  angle: 0
-     //},
+     point: {
+       origin: {},
+       radius: 0,
+       angle: 0
+     },
      emitter: {
-       pos: {},
        vel: { x: 6, y: 6, wobble: { amt: 3, weight: 0 } },
        rate: { num: 4, wobble: { amt: 2, weight: 0 } },
        radius: { radius: 8, wobble: { amt: 4, weight: 0 } },
        sputter: 20,
-     //  angle: 0,
        layers: 2
      },
      particles: {

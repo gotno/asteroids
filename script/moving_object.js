@@ -46,7 +46,10 @@
 
     var that = this;
     this.emitters.forEach(function(emitter) {
-      emitter.updateOrigin($.extend({}, that.pos));
+      emitter.setOrigin($.extend({}, that.pos));
+      //
+      emitter.emit();
+      emitter.particleStep();
     });
   };
 
@@ -60,17 +63,42 @@
 
 
   MovingObject.prototype.attachEmitter = function (emitterOpts,
+                                                   ctx,
                                                    linearOffset,
                                                    angleOffset) {
 
-     var emitterOpts = $.extend(true, {}, emitterOpts);
+    var emitterOpts = $.extend(true, {}, emitterOpts);
 
-     emitterOpts.ctx = this.ctx;
+    emitterOpts.ctx = ctx;
 
-     emitterOpts.point.origin = $.extend({}, this.pos);
-     emitterOpts.point.radius = linearOffset;
-     emitterOpts.point.angle = this.angle + angleOffset;
+    emitterOpts.point.origin = $.extend({}, this.pos);
+    emitterOpts.point.radius = linearOffset;
+    emitterOpts.point.angle = this.angle + angleOffset;
 
-     this.emitters.push(new Asteroids.Emitter(emitterOpts));
-   };
+    this.emitters.push(new Asteroids.Emitter(emitterOpts));
+  };
+
+  MovingObject.emitterOptions = {
+    point: {
+      origin: {},
+      radius: 0,
+      angle: 0
+    },
+    emitter: {
+      vel: { x: 0, y: 0, wobble: { amt: 12, weight: 0 } },
+      rate: { num: 2, wobble: { amt: 1, weight: 0 } },
+      radius: { radius: 8, wobble: { amt: 4, weight: 0 } },
+      sputter: 0,
+      layers: 1
+    },
+    particles: {
+      vel: { decay: { amt: 0.8, weight: 0, limit: .1 } },
+      radius: { radius: 7, decay: { amt: 0.95, weight: 0, limit: 0 } },
+      angle: 0,
+      rotationSpeed: 0,
+      lifespan: { span: 5, wobble: { amt: 0, weight: 0 } },
+      lifeline: { attr: 'radius', val: 'radius', trigger: 0 },
+      layers: [{ color: '#ff0000', radiusOffset: 0 }],
+    }
+  }
 })(this);

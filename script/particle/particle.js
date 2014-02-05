@@ -11,6 +11,7 @@
     this.lifespan = options.lifespan;
     this.lifeline = options.lifeline;
     this.layers = options.layers;
+    console.log('new particle');
   };
 
   Particle.inherits(Asteroids.MovingObject);

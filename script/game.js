@@ -13,19 +13,6 @@
     this.score = 0;
     this.gameOver = false;
 
-    /*
-    this.testEO = new Asteroids.MovingObject({
-      pos: { x: Game.DIM_X/2, y: Game.DIM_Y/2},
-      vel: { x: 0, y: 0 },
-      radius: 0,
-      angle: Math.PI * 1.5,
-      color: '#000000',
-      rotationSpeed: Math.PI * 0.3
-    });
-
-    this.testEO.attachEmitter(Asteroids.MovingObject.emitterOptions, ctx, 0, 0);
-    */
-
     this.HUD = new Asteroids.HUD(ctx);
   };
 
@@ -55,16 +42,14 @@
       bullet.draw(ctx);
     });
 
-    this.ship.draw(ctx);
 
     if (!this.gameOver) {
       this.HUD.drawInPlay(this.score);
+      this.ship.draw(ctx);
     } else {
       this.HUD.drawGameOver(this.score);
+      this.testEO.move(ctx);
     }
-
-    //this.testEO.move();
-    //this.testEO.draw(ctx);
   };
 
   Game.prototype.move = function() {
@@ -150,8 +135,8 @@
     var game = this;
     this.asteroids.forEach(function(asteroid, aIdx){
       if (asteroid.isCollidedWith(game.ship)) {
+        game.ship.destroy();
         game.gameOver = true;
-        //game.stop();
       }
 
       if (game.bullets.length > 0) {
@@ -163,6 +148,18 @@
       }
     });
   };
+
+  Game.prototype.killShip = function() {
+    this.testEO = new Asteroids.MovingObject({
+      pos: $.extend({}, this.ship.pos),
+      vel: $.extend({}, this.ship.vel),
+      radius: 0,
+      angle: 0,
+      color: '#000000'
+    });
+
+    this.testEO.attachEmitter(Game.emitterOptions, this.ctx, 5, 0);
+  }
 
   Game.prototype.fireBullet = function() {
     if (this.bullets.length < Game.MAX_BULLETS) {
@@ -200,4 +197,28 @@
   Game.DIM_X = 800;
   Game.DIM_Y = 600;
   Game.MAX_BULLETS = 5;
+
+  Game.emitterOptions = {
+    point: {
+      origin: {},
+      radius: 0,
+      angle: 0
+    },
+    emitter: {
+      vel: { x: 0, y: 0, wobble: { amt: 0, weight: 0 } },
+      rate: { num: 1, wobble: { amt: 0, weight: 0 } },
+      radius: { radius: 8, wobble: { amt: 0, weight: 0 } },
+      sputter: 0,
+      layers: 1
+    },
+    particles: {
+      vel: { decay: { amt: 0.8, weight: 0, limit: .1 } },
+      radius: { radius: 7, decay: { amt: 0.95, weight: 0, limit: 0 } },
+      angle: 0,
+      rotationSpeed: 0,
+      lifespan: { span: 5, wobble: { amt: 0, weight: 0 } },
+      lifeline: { attr: 'radius', val: 'radius', trigger: 0 },
+      layers: [{ color: '#ff0000', radiusOffset: 0 }],
+    }
+  }
 })(this);

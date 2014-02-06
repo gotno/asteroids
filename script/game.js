@@ -13,6 +13,7 @@
     this.score = 0;
     this.gameOver = false;
 
+    /*
     this.testEO = new Asteroids.MovingObject({
       pos: { x: Game.DIM_X/2, y: Game.DIM_Y/2},
       vel: { x: 0, y: 0 },
@@ -23,6 +24,7 @@
     });
 
     this.testEO.attachEmitter(Asteroids.MovingObject.emitterOptions, ctx, 0, 0);
+    */
 
     this.HUD = new Asteroids.HUD(ctx);
   };
@@ -61,8 +63,8 @@
       this.HUD.drawGameOver(this.score);
     }
 
-    this.testEO.move();
-    this.testEO.draw(ctx);
+    //this.testEO.move();
+    //this.testEO.draw(ctx);
   };
 
   Game.prototype.move = function() {

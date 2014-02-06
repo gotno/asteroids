@@ -36,7 +36,9 @@
      
 
      Asteroids.MovingObjectPointed.call(this, options);
-     this.attachEmitter(20, Math.PI);
+
+     this.exhaustEmitter = this.attachEmitter(Ship.exhaustEmitterOptions,
+                                              ctx, 20, Math.PI);
    }
    Ship.inherits(Asteroids.MovingObjectPointed);
 
@@ -65,18 +67,6 @@
 
      Asteroids.MovingObjectPointed.prototype.draw.call(this, ctx);
    }
-
-   Ship.prototype.attachEmitter = function (linearOffset, angleOffset) {
-     var emitterOpts = $.extend(true, {}, Ship.exhaustEmitterOptions);
-
-     emitterOpts.ctx = this.ctx;
-
-     emitterOpts.point.origin = $.extend({}, this.pos);
-     emitterOpts.point.radius = linearOffset;
-     emitterOpts.point.angle = this.angle + angleOffset;
-
-     this.exhaustEmitter = new Asteroids.Emitter(emitterOpts);
-   };
 
    Ship.RADIUS = 8;
    Ship.IMPULSE = 0.20;

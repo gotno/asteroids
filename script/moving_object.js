@@ -47,7 +47,6 @@
     var that = this;
     this.emitters.forEach(function(emitter) {
       emitter.setOrigin($.extend({}, that.pos));
-      emitter.emit();
       emitter.particleStep();
     });
   };
@@ -63,7 +62,7 @@
   MovingObject.prototype.attachEmitter = function (emitterOpts,
                                                    ctx,
                                                    linearOffset,
-                                                   angleOffset) {
+                                                   angularOffset) {
 
     var emitterOpts = $.extend(true, {}, emitterOpts);
 
@@ -71,7 +70,7 @@
 
     emitterOpts.point.origin = $.extend({}, this.pos);
     emitterOpts.point.radius = linearOffset;
-    emitterOpts.point.angle = this.angle + angleOffset;
+    emitterOpts.point.angle = this.angle + angularOffset;
 
     var newEmitter = new Asteroids.Emitter(emitterOpts);
     this.emitters.push(newEmitter);

@@ -11,17 +11,17 @@
     this.addKeyBindings();
     this.setup();
 
-/*
+
     this.test = new Asteroids.MovingObject({ 
       pos: { x: Game.DIM_X/2, y: Game.DIM_Y/2 },
       vel: { x: 0, y: 0 },
       radius: 0,
-      angle: Math.PI,
+      angle: 0,
       color: '#000000',
+      rotationSpeed: Math.degToRad(2)
     });
 
-    this.test.attachEmitter(Game.emitterOptions, ctx, 20, Math.PI/2);
-*/
+    this.test.attachEmitter(Game.emitterOptions, ctx, 20, 0);
   };
 
   Game.prototype.setup = function() {
@@ -88,7 +88,7 @@
       this.ship.draw(ctx);
       break;
     case 'inPlay':
-      this.ship.draw(ctx);
+      //this.ship.draw(ctx);
       this.HUD.drawInPlay(this.score);
       break;
     case 'over':
@@ -96,7 +96,7 @@
       break;
     }
 
-//    this.test.draw(ctx);
+    this.test.draw(ctx);
   };
 
   Game.prototype.move = function() {
@@ -121,7 +121,7 @@
 
     this.bullets = tempBullets;
 
- //   this.test.move();
+    this.test.move();
   };
 
   Game.prototype.screenWrap = function(mObj) {
@@ -274,8 +274,8 @@
     emitter: {
       vel: { x: 6, y: 6, wobble: { amt: 0, weight: 0 } },
       rate: { num: 1, wobble: { amt: 0, weight: 0 } },
-      radius: { radius: 8, wobble: { amt: 0, weight: 0 } },
-      sputter: 0,
+      radius: { radius: 4, wobble: { amt: 0, weight: 0 } },
+      sputter: 30,
       layers: 1,
       throttle: true,
       lifespan: -1

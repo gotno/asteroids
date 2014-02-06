@@ -103,7 +103,7 @@
        lifespan: -1
      },
      particles: {
-       vel: { decay: { amt: 0.8, weight: 0, limit: .1 } },
+       vel: { decay: { amt: 1, weight: 0, limit: .1 } },
        radius: { radius: 7, decay: { amt: 0.95, weight: 0, limit: 0 } },
        angle: 0,
        rotationSpeed: 0,

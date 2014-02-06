@@ -28,8 +28,8 @@
       for (var i = 0; i < numParticles; i++) {
         var vel = {};
         var wVel = Emitter.wobbleValues(eOpts.vel);
-        vel.x =  Math.sin(this.angle) * wVel.x;
-        vel.y = -Math.cos(this.angle) * wVel.y;
+        vel.x =  Math.sin(this.angle + Math.PI/2) * 8;// * wVel.x;
+        vel.y = -Math.cos(this.angle + Math.PI/2) * 8;// * wVel.y;
         vel.decay = pOpts.vel.decay;
 
         var radius = Emitter.wobbleValues(eOpts.radius);
@@ -41,7 +41,7 @@
         this.particles.push(new Asteroids.Particle({
           pos: $.extend({}, this.pos),
           vel: vel,
-          angle: pOpts.angle,
+          angle: this.angle,
           rotationSpeed: pOpts.rotationSpeed,
           radius: radius,
           lifespan: lifespan,

@@ -6,6 +6,11 @@
     Asteroids.Point.call(this, pointOpts);
 
     this.eOpts = options.emitter;
+    this.cold = false;
+    this.throttle = this.eOpts.throttle || false;
+    this.lifespan = this.eOpts.lifespan || -1;
+
+
     this.pOpts = options.particles;
     
     this.ctx = options.ctx;
@@ -49,9 +54,18 @@
   };
 
   Emitter.prototype.particleStep = function () {
+    if (this.lifespan > 0) {
+      if (this.throttle) this.emit();
+      this.lifespan--;
+    } else if (this.lifespan == 0) {
+      this.throttle = false;
+    }
+
     var emitter = this;
 
     if (this.particles.length > 0) {
+      this.cold = false;
+
       for (var i = 0; i < this.pOpts.layers.length; i++) {
         this.particles.forEach(function(particle, idx) {
           particle.decay();
@@ -63,6 +77,8 @@
           }
         });
       }
+    } else {
+      this.cold = true;
     }
   };
 
@@ -72,6 +88,7 @@
     var val = particle.lifeline.val;
 
     if (particle[attr][val] == particle.lifeline.trigger) {
+      delete this.particles[idx];
       this.particles.splice(idx, 1);
       return true;
     }

@@ -91,7 +91,7 @@
        rate: { num: 4, wobble: { amt: 2, weight: 0 } },
        radius: { radius: 8, wobble: { amt: 4, weight: 0 } },
        sputter: 20,
-       layers: 2
+       layers: 2,
      },
      particles: {
        vel: { decay: { amt: 0.8, weight: 0, limit: .1 } },

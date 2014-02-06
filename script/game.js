@@ -195,9 +195,9 @@
         game.ship.destroy();
         game.switchModes('over');
 
-        //if (game.HUD.isHighScore(game.score)) {
+        if (game.HUD.isHighScore(game.score)) {
           game.HUD.switchModes('input');
-        //}
+        }
       }
 
       if (game.bullets.length > 0) {

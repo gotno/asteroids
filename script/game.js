@@ -170,20 +170,20 @@
       game.fireBullet();
     });
 
-    key('a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z',
+    key('a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,backspace',
          'over',
          function(event, handler) {
-           console.log(handler.shortcut.toUpperCase());
-    });
-    key('backspace', 'over', function() {
-      console.log('backspace');
+           game.HUD.input(handler.shortcut);
     });
     key('enter', 'over', function() {
+      game.HUD.submit(game.score);
+      /*
       game.stop();
       game.reset();
       game.setup();
       game.start();
       game.switchModes('inPlay');
+      */
     });
   };
 

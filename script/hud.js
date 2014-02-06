@@ -4,10 +4,11 @@
   var HUD = Asteroids.HUD = function(ctx) {
     this.ctx = ctx;
     this.highScores = [];
+    this.userInput = '';
   };
 
   HUD.prototype.drawStartScreen = function() {
-  }
+  };
 
   HUD.prototype.drawHighScores = function() {
     var ctx = this.ctx;
@@ -111,5 +112,20 @@
         HUD.getHighScores();
       }
     });
+  };
+
+  HUD.prototype.input = function(keyPressed) {
+    var userInput = this.userInput;
+    if (keyPressed === 'backspace' && userInput.length > 0) {
+      this.userInput = userInput.substring(0, userInput.length - 1);
+    } else if (keyPressed !== 'backspace' && userInput.length < 3) {
+      this.userInput += keyPressed.toUpperCase();
+    }
+  };
+
+  HUD.prototype.submit = function(points) {
+    if (this.userInput.length === 3) {
+      this.addHighScore({ initials: this.userInput, score: points });
+    }
   };
 })(this);

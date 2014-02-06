@@ -12,7 +12,7 @@
     Asteroid.SMALL_RADIUS = 32;
     Asteroid.RADIUS = 64;
 
-    Asteroid.randomSmallAsteroid = function(asteroid) {
+    Asteroid.randomSmallAsteroid = function(asteroid, bullet) {
       var options = {};
 
       options.radius = (asteroid.radius / 2);
@@ -38,6 +38,8 @@
         options.vel.y = -(Math.random() * asteroid.vel.y);
         options.vel.y -= (Math.random() * asteroid.vel.y);
       }
+      options.vel.x += Math.random() * (bullet.vel.x / 6);
+      options.vel.y += Math.random() * (bullet.vel.y / 6);
 
       options.color = Asteroid.COLOR;
       options.strokeColor = Asteroid.STROKE_COLOR;
@@ -143,8 +145,8 @@
 
     Asteroid.randomInsidePos = function(posX, posY) {
       var pos = {};
-      pos.x = posX + Math.round((Math.random() * 16) - 8);
-      pos.y = posY + Math.round((Math.random() * 16) - 8);
+      pos.x = posX + Math.round((Math.random() * 32) - 16);
+      pos.y = posY + Math.round((Math.random() * 32) - 16);
       return pos;
     };
 

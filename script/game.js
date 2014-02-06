@@ -54,9 +54,10 @@
     key.setScope(mode);
   };
 
-  Game.prototype.addSmallAsteroids = function(numAsteroids, asteroid) {
+  Game.prototype.addSmallAsteroids = function(numAsteroids, asteroid, bullet) {
     for (var i = 0; i < numAsteroids; i++) {
-      this.asteroids.push(Asteroids.Asteroid.randomSmallAsteroid(asteroid));
+      var newAst = Asteroids.Asteroid.randomSmallAsteroid(asteroid, bullet);
+      this.asteroids.push(newAst);
     }
   };
 
@@ -221,9 +222,14 @@
 
   Game.prototype.handleBulletHit = function(aIdx, bIdx) {
     var asteroid = this.asteroids[aIdx];
+    var bullet = this.bullets[bIdx];
+    console.log(bullet);
+
     if (!asteroid.isSmall()) {
       var numNew = 1 + (Math.ceil(Math.random() * 2))
-      this.addSmallAsteroids(numNew, $.extend({}, asteroid));
+      this.addSmallAsteroids(numNew,
+                             $.extend({}, asteroid),
+                             $.extend({}, bullet));
       this.score += 1;
     } else {
       var numNew = 1 + (Math.ceil(Math.random() * 2))

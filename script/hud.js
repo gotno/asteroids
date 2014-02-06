@@ -16,7 +16,7 @@
 
     ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
     var posX = dimX - 290;
-    var posY = 100;
+    var posY = 125;
     var width = 250;
     var height = dimY - (posY * 2);
     ctx.fillRect(posX, posY, width, height);
@@ -97,12 +97,7 @@
     });
   };
 
-  HUD.prototype.setHighScores = function() {
-    var scores = [ 
-      { initials: 'WOD', score: 2 },
-      { initials: 'ONT', score: 20000 }
-    ];
-
+  HUD.prototype.addHighScore = function(highScore) {
     var url = 'https://api.mongolab.com/api/1/databases/asteroids/collections/highscores'
     var key = '?apiKey=7E2CWYg8hIrz_IcFzq_eKsv1-ezDZpyi';
 
@@ -110,7 +105,7 @@
     $.ajax({
       url: url + key,
       type: "POST",
-      data: JSON.stringify(scores),
+      data: JSON.stringify(highScore),
       contentType: "application/json",
       success: function() {
         HUD.getHighScores();

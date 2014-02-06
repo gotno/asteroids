@@ -179,7 +179,11 @@
       console.log('backspace');
     });
     key('enter', 'over', function() {
-      console.log('enter');
+      game.stop();
+      game.reset();
+      game.setup();
+      game.start();
+      game.switchModes('inPlay');
     });
   };
 

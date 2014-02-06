@@ -23,7 +23,9 @@
   };
 
   HUD.prototype.isHighScore = function(score) {
-    if (score > this.highScores[this.highScores.length - 1].score) {
+    if (this.highScores.length < 10) {
+      return true;
+    } else if (score > this.highScores[this.highScores.length - 1].score) {
       return true;
     }
     return false;

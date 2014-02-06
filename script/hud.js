@@ -42,16 +42,27 @@
   };
 
   HUD.prototype.getHighScores = function() {
-    /*
-    var score = { initials: 'WOD', score: 20000 }
+    var scores = [ 
+      { initials: 'WOD', score: 2 },
+      { initials: 'ONT', score: 20000 }
+    ];
+
+    var url = 'https://api.mongolab.com/api/1/databases/asteroids/collections/highscores?apiKey='
+    var key = '7E2CWYg8hIrz_IcFzq_eKsv1-ezDZpyi';
+    var qString = '?';
+    qString += 's={"score": -1}';
+    qString += '&l=10';
+
+  //*
     $.ajax({
-        url: "https://api.mongolab.com/api/1/databases/asteroids/collections/highscores?apiKey=7E2CWYg8hIrz_IcFzq_eKsv1-ezDZpyi",
-        type: "POST",
-        data: JSON.stringify( score ),
-        contentType: "application/json"
-    }).done(function( msg ) {
-        console.log(msg);
+      url: url + key + qString,
+      type: "GET",
+//      data: JSON.stringify(scores),
+      contentType: "application/json"
+    }).done(function(msg) {
+      console.log(arguments);
+      console.log(msg);
     });
-    // */
+  // */
   };
 })(this);

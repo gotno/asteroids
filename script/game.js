@@ -272,7 +272,7 @@
       angle: 0
     },
     emitter: {
-      vel: { x: 6, y: 6, wobble: { amt: 0, weight: 0 } },
+      vel: { x: 6, y: 6, wobble: { amt: 6, weight: 0 } },
       rate: { num: 1, wobble: { amt: 0, weight: 0 } },
       radius: { radius: 4, wobble: { amt: 0, weight: 0 } },
       sputter: 30,

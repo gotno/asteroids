@@ -28,8 +28,8 @@
       for (var i = 0; i < numParticles; i++) {
         var vel = {};
         var wVel = Emitter.wobbleValues(eOpts.vel);
-        vel.x =  Math.sin(this.angle + Math.PI/2) * 8;// * wVel.x;
-        vel.y = -Math.cos(this.angle + Math.PI/2) * 8;// * wVel.y;
+        vel.x =  Math.sin(this.angle + Math.PI/2) * wVel.x;
+        vel.y = -Math.cos(this.angle + Math.PI/2) * wVel.y;
         vel.decay = pOpts.vel.decay;
 
         var radius = Emitter.wobbleValues(eOpts.radius);

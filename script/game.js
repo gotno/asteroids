@@ -142,6 +142,19 @@
     key('space', function() {
       game.fireBullet();
     });
+
+    key('a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z',
+         'highscores',
+         function(event, handler) {
+           console.log(handler.shortcut.toUpperCase());
+    });
+    key('backspace', 'highscores', function() {
+      console.log('backspace');
+    });
+    key('enter', 'highscores', function() {
+      console.log('enter');
+    });
+    key.setScope('highscores');
   };
 
   Game.prototype.checkCollisions = function(){

@@ -30,7 +30,6 @@
         var wVel = Emitter.wobbleValues(eOpts.vel);
         vel.x =  Math.sin(this.angle) * wVel.x;
         vel.y = -Math.cos(this.angle) * wVel.y;
-        console.log(vel);
         vel.decay = pOpts.vel.decay;
 
         var radius = Emitter.wobbleValues(eOpts.radius);

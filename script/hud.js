@@ -5,6 +5,12 @@
     this.ctx = ctx;
   };
 
+  HUD.prototype.drawStartScreen = function() {
+  }
+
+  HUD.prototype.drawHighScores = function() {
+  }
+
   HUD.prototype.drawInPlay = function(score) {
     var ctx = this.ctx;
     var scoreText = 'score: ' + score;
@@ -33,5 +39,19 @@
     
     ctx.fillText('GAME OVER', dimX/2, dimY/2 - 20 );
     ctx.fillText(scoreText, dimX/2, dimY/2 + 20 );
+  };
+
+  HUD.prototype.getHighScores = function() {
+    /*
+    var score = { initials: 'WOD', score: 20000 }
+    $.ajax({
+        url: "https://api.mongolab.com/api/1/databases/asteroids/collections/highscores?apiKey=7E2CWYg8hIrz_IcFzq_eKsv1-ezDZpyi",
+        type: "POST",
+        data: JSON.stringify( score ),
+        contentType: "application/json"
+    }).done(function( msg ) {
+        console.log(msg);
+    });
+    // */
   };
 })(this);

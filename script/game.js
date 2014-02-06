@@ -2,16 +2,14 @@
   var Asteroids = root.Asteroids = (root.Asteroids || {});
 
   var Game = Asteroids.Game = function (ctx) {
+    this.mode = 'start';
     this.ctx = ctx;
-    this.asteroids = [];
-    this.interval = null;
-    this.ship = new Asteroids.Ship({
-      x: Game.DIM_X/2,
-      y: Game.DIM_Y/2,
-    }, ctx);
-    this.bullets = [];
-    this.score = 0;
-    this.gameOver = false;
+
+    this.HUD = new Asteroids.HUD(ctx);
+    this.HUD.getHighScores();
+
+    this.setup();
+
 /*
     this.test = new Asteroids.MovingObject({ 
       pos: { x: Game.DIM_X/2, y: Game.DIM_Y/2 },
@@ -23,9 +21,29 @@
 
     this.test.attachEmitter(Game.emitterOptions, ctx, 20, Math.PI/2);
 */
+  };
 
-    this.HUD = new Asteroids.HUD(ctx);
-    this.HUD.getHighScores();
+  Game.prototype.setup = function() {
+    this.asteroids = [];
+    this.ship = new Asteroids.Ship({
+      x: Game.DIM_X/2,
+      y: Game.DIM_Y/2,
+    }, this.ctx);
+    this.bullets = [];
+    this.score = 0;
+    this.gameOver = false;
+  };
+
+  Game.prototype.reset = function() {
+    this.asteroids.forEach(function(asteroid) {
+      delete asteroid;
+    });
+    this.bullets.forEach(function(bullet) {
+      delete bullet;
+    });
+    delete this.ship;
+
+    this.setup();
   };
 
   Game.prototype.addSmallAsteroids = function(numAsteroids, asteroid) {

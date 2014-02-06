@@ -6,8 +6,13 @@ Built with JavaScript, rendering on an HTML5 Canvas.
 
 Hand-rolled particle effects system.
 
-You can play it here: [ASTEROIDS](http://gotno.github.io/asteroids/) 
+NoSQL (MongoDB) high score leaderboard.
+
+You should play it: [INFINITE ASTEROIDS](http://gotno.github.io/asteroids/) 
 
 ### To do
-  + Add leaderboards
-  + Fix weird math on Ship
+  + Maths are weird. Fix them. 
+  + Build start screen.
+  + Emitters aren't rotating properly anymore. What happened?
+  + Dedicated Renderer class.
+  + Better collisions

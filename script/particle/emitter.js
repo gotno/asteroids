@@ -10,7 +10,6 @@
     this.throttle = this.eOpts.throttle || false;
     this.lifespan = this.eOpts.lifespan || -1;
 
-
     this.pOpts = options.particles;
     
     this.ctx = options.ctx;
@@ -31,6 +30,7 @@
         var wVel = Emitter.wobbleValues(eOpts.vel);
         vel.x =  Math.sin(this.angle) * wVel.x;
         vel.y = -Math.cos(this.angle) * wVel.y;
+        console.log(vel);
         vel.decay = pOpts.vel.decay;
 
         var radius = Emitter.wobbleValues(eOpts.radius);
@@ -54,10 +54,10 @@
   };
 
   Emitter.prototype.particleStep = function () {
-    if (this.lifespan > 0) {
+    if (this.lifespan !== 0) {
       if (this.throttle) this.emit();
       this.lifespan--;
-    } else if (this.lifespan == 0) {
+    } else if (this.lifespan === 0) {
       this.throttle = false;
     }
 

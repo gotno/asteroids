@@ -15,6 +15,10 @@
   }
 
   MovingObject.prototype.draw = function(ctx) {
+    this.emitters.forEach(function(emitter) {
+      emitter.particleStep();
+    });
+
     ctx.strokeStyle = this.color;
     ctx.lineWidth = 0.5;
 
@@ -45,9 +49,9 @@
     this.rotate(this.rotationSpeed);
 
     var that = this;
+
     this.emitters.forEach(function(emitter) {
       emitter.setOrigin($.extend({}, that.pos));
-      emitter.particleStep();
     });
   };
 

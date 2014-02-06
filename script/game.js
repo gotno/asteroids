@@ -12,6 +12,17 @@
     this.bullets = [];
     this.score = 0;
     this.gameOver = false;
+/*
+    this.test = new Asteroids.MovingObject({ 
+      pos: { x: Game.DIM_X/2, y: Game.DIM_Y/2 },
+      vel: { x: 0, y: 0 },
+      radius: 0,
+      angle: Math.PI,
+      color: '#000000',
+    });
+
+    this.test.attachEmitter(Game.emitterOptions, ctx, 20, Math.PI/2);
+*/
 
     this.HUD = new Asteroids.HUD(ctx);
   };
@@ -42,13 +53,14 @@
       bullet.draw(ctx);
     });
 
+    this.ship.draw(ctx);
 
     if (!this.gameOver) {
       this.HUD.drawInPlay(this.score);
-      this.ship.draw(ctx);
     } else {
       this.HUD.drawGameOver(this.score);
     }
+//    this.test.draw(ctx);
   };
 
   Game.prototype.move = function() {
@@ -72,6 +84,8 @@
     });
 
     this.bullets = tempBullets;
+
+ //   this.test.move();
   };
 
   Game.prototype.screenWrap = function(mObj) {
@@ -150,7 +164,7 @@
 
   Game.prototype.fireBullet = function() {
     if (this.bullets.length < Game.MAX_BULLETS) {
-      var bullet = this.ship.fireBullet(this);
+      var bullet = this.ship.fireBullet();
       if (bullet){
         this.bullets.push(bullet);
       }
@@ -192,20 +206,21 @@
       angle: 0
     },
     emitter: {
-      vel: { x: 0, y: 0, wobble: { amt: 0, weight: 0 } },
+      vel: { x: 6, y: 6, wobble: { amt: 0, weight: 0 } },
       rate: { num: 1, wobble: { amt: 0, weight: 0 } },
       radius: { radius: 8, wobble: { amt: 0, weight: 0 } },
       sputter: 0,
-      layers: 1
+      layers: 1,
+      throttle: true,
+      lifespan: -1
     },
     particles: {
       vel: { decay: { amt: 0.8, weight: 0, limit: .1 } },
       radius: { radius: 7, decay: { amt: 0.95, weight: 0, limit: 0 } },
       angle: 0,
-      rotationSpeed: 0,
-      lifespan: { span: 5, wobble: { amt: 0, weight: 0 } },
+      lifespan: { span: 20, wobble: { amt: 5, weight: 1 } },
       lifeline: { attr: 'radius', val: 'radius', trigger: 0 },
-      layers: [{ color: '#ff0000', radiusOffset: 0 }],
+      layers: [{ color: '#fcfcfc', radiusOffset: 0 }]
     }
   }
 })(this);

@@ -48,7 +48,6 @@
       this.ship.draw(ctx);
     } else {
       this.HUD.drawGameOver(this.score);
-      this.testEO.move(ctx);
     }
   };
 
@@ -148,18 +147,6 @@
       }
     });
   };
-
-  Game.prototype.killShip = function() {
-    this.testEO = new Asteroids.MovingObject({
-      pos: $.extend({}, this.ship.pos),
-      vel: $.extend({}, this.ship.vel),
-      radius: 0,
-      angle: 0,
-      color: '#000000'
-    });
-
-    this.testEO.attachEmitter(Game.emitterOptions, this.ctx, 5, 0);
-  }
 
   Game.prototype.fireBullet = function() {
     if (this.bullets.length < Game.MAX_BULLETS) {

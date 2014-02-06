@@ -68,6 +68,13 @@
      Asteroids.MovingObjectPointed.prototype.draw.call(this, ctx);
    }
 
+   Ship.prototype.destroy = function() {
+     delete this.exhaustEmitter;
+     this.emitters = [];
+ 
+     this.exhaustEmitter = this.attachEmitter(Asteroids.Game.emitterOptions, this.ctx, 5, 0);
+   };
+
    Ship.RADIUS = 8;
    Ship.IMPULSE = 0.20;
    Ship.BULLET_SPEED = 12;

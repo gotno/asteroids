@@ -10,18 +10,6 @@
 
     this.addKeyBindings();
     this.setup();
-
-
-    this.test = new Asteroids.MovingObject({ 
-      pos: { x: Game.DIM_X/2, y: Game.DIM_Y/2 },
-      vel: { x: 0, y: 0 },
-      radius: 0,
-      angle: 0,
-      color: '#000000',
-      rotationSpeed: Math.degToRad(2)
-    });
-
-    this.test.attachEmitter(Game.emitterOptions, ctx, 20, 0);
   };
 
   Game.prototype.setup = function() {
@@ -88,15 +76,13 @@
       this.ship.draw(ctx);
       break;
     case 'inPlay':
-      //this.ship.draw(ctx);
+      this.ship.draw(ctx);
       this.HUD.drawInPlay(this.score);
       break;
     case 'over':
       this.HUD.drawGameOver(this.score);
       break;
     }
-
-    this.test.draw(ctx);
   };
 
   Game.prototype.move = function() {
@@ -120,8 +106,6 @@
     });
 
     this.bullets = tempBullets;
-
-    this.test.move();
   };
 
   Game.prototype.screenWrap = function(mObj) {
@@ -223,7 +207,6 @@
   Game.prototype.handleBulletHit = function(aIdx, bIdx) {
     var asteroid = this.asteroids[aIdx];
     var bullet = this.bullets[bIdx];
-    console.log(bullet);
 
     if (!asteroid.isSmall()) {
       var numNew = 1 + (Math.ceil(Math.random() * 2))

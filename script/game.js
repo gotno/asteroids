@@ -25,6 +25,7 @@
 */
 
     this.HUD = new Asteroids.HUD(ctx);
+    this.HUD.getHighScores();
   };
 
   Game.prototype.addSmallAsteroids = function(numAsteroids, asteroid) {

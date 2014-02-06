@@ -3,12 +3,49 @@
 
   var HUD = Asteroids.HUD = function(ctx) {
     this.ctx = ctx;
+    this.highScores = [];
   };
 
   HUD.prototype.drawStartScreen = function() {
   }
 
   HUD.prototype.drawHighScores = function() {
+    var ctx = this.ctx;
+    var dimX = Asteroids.Game.DIM_X;
+    var dimY = Asteroids.Game.DIM_Y;
+
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+    var posX = dimX - 290;
+    var posY = 100;
+    var width = 250;
+    var height = dimY - (posY * 2);
+    ctx.fillRect(posX, posY, width, height);
+
+    var textX = posX + width / 2;
+    var textY = posY + 30;
+
+    ctx.fillStyle = '#FF4657';
+    ctx.font = 'bold 20px sans-serif';
+    ctx.textBaseLine = 'middle';
+    ctx.textAlign= 'center';
+    ctx.fillText('HIGH SCORES', textX, textY );
+    
+    ctx.font = 'bold 18px sans-serif';
+    ctx.textBaseLine = 'middle';
+    ctx.textAlign= 'left';
+    textX = textX - 80;
+    for (var i = 0; i < this.highScores.length; i++) {
+      textY += 30;
+      var initials = this.highScores[i].initials;
+      var score = this.highScores[i].score;
+
+      ctx.textAlign = 'left';
+      ctx.fillText(initials, textX, textY);
+
+      ctx.textAlign = 'right';
+      ctx.fillText(score, textX + 155, textY);
+
+    }
   }
 
   HUD.prototype.drawInPlay = function(score) {
@@ -39,6 +76,8 @@
     
     ctx.fillText('GAME OVER', dimX/2, dimY/2 - 20 );
     ctx.fillText(scoreText, dimX/2, dimY/2 + 20 );
+
+    this.drawHighScores();
   };
 
   HUD.prototype.getHighScores = function() {
@@ -47,12 +86,13 @@
     qString += '&s={"score": -1}';
     qString += '&l=10';
 
+    var HUD = this;
     $.ajax({
       url: url + qString,
       type: "GET",
       dataType: 'json',
-      success: function() {
-        console.log(arguments);
+      success: function(data) {
+        HUD.highScores = data;
       }
     });
   };
@@ -66,13 +106,14 @@
     var url = 'https://api.mongolab.com/api/1/databases/asteroids/collections/highscores'
     var key = '?apiKey=7E2CWYg8hIrz_IcFzq_eKsv1-ezDZpyi';
 
+    var HUD = this;
     $.ajax({
       url: url + key,
       type: "POST",
       data: JSON.stringify(scores),
       contentType: "application/json",
       success: function() {
-        console.log(arguments);
+        HUD.getHighScores();
       }
     });
   };

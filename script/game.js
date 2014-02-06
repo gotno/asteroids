@@ -2,12 +2,13 @@
   var Asteroids = root.Asteroids = (root.Asteroids || {});
 
   var Game = Asteroids.Game = function (ctx) {
-    this.mode = 'start';
+    this.switchModes('inPlay');
     this.ctx = ctx;
 
     this.HUD = new Asteroids.HUD(ctx);
     this.HUD.getHighScores();
 
+    this.addKeyBindings();
     this.setup();
 
 /*
@@ -32,6 +33,8 @@
     this.bullets = [];
     this.score = 0;
     this.gameOver = false;
+
+    this.addAsteroids(10);
   };
 
   Game.prototype.reset = function() {
@@ -46,11 +49,17 @@
     this.setup();
   };
 
+  Game.prototype.switchModes = function (mode) {
+    this.mode = mode;
+    key.setScope(mode);
+  };
+
   Game.prototype.addSmallAsteroids = function(numAsteroids, asteroid) {
     for (var i = 0; i < numAsteroids; i++) {
       this.asteroids.push(Asteroids.Asteroid.randomSmallAsteroid(asteroid));
     }
   };
+
   Game.prototype.addAsteroids = function(numAsteroids) {
     for (var i = 0; i < numAsteroids; i++) {
       this.asteroids.push(Asteroids.Asteroid.randomAsteroid(Game.DIM_X,
@@ -72,13 +81,20 @@
       bullet.draw(ctx);
     });
 
-    this.ship.draw(ctx);
 
-    if (!this.gameOver) {
+    switch(this.mode) {
+    case 'start':
+      this.ship.draw(ctx);
+      break;
+    case 'inPlay':
+      this.ship.draw(ctx);
       this.HUD.drawInPlay(this.score);
-    } else {
+      break;
+    case 'over':
       this.HUD.drawGameOver(this.score);
+      break;
     }
+
 //    this.test.draw(ctx);
   };
 
@@ -133,20 +149,12 @@
   };
 
   Game.prototype.step = function() {
-    this.checkKeyPresses();
-    this.checkCollisions();
+    if (this.mode == 'inPlay') {
+      this.checkKeyPresses();
+      this.checkCollisions();
+    }
     this.move();
     this.draw();
-  };
-
-  Game.prototype.start = function() {
-    var game = this;
-    this.addAsteroids(10);
-    this.addKeyBindings();
-
-    this.interval = setInterval(function() {
-      game.step();
-    }, Game.INTERVAL_MILLISECONDS);
   };
 
   Game.prototype.checkKeyPresses = function() {
@@ -158,22 +166,21 @@
   Game.prototype.addKeyBindings = function() {
     var game = this;
 
-    key('space', function() {
+    key('space', 'inPlay', function() {
       game.fireBullet();
     });
 
     key('a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z',
-         'highscores',
+         'over',
          function(event, handler) {
            console.log(handler.shortcut.toUpperCase());
     });
-    key('backspace', 'highscores', function() {
+    key('backspace', 'over', function() {
       console.log('backspace');
     });
-    key('enter', 'highscores', function() {
+    key('enter', 'over', function() {
       console.log('enter');
     });
-    key.setScope('highscores');
   };
 
   Game.prototype.checkCollisions = function(){
@@ -181,7 +188,7 @@
     this.asteroids.forEach(function(asteroid, aIdx){
       if (asteroid.isCollidedWith(game.ship)) {
         game.ship.destroy();
-        game.gameOver = true;
+        game.switchModes('over');
       }
 
       if (game.bullets.length > 0) {
@@ -214,8 +221,20 @@
       this.addAsteroids(numNew);
       this.score += 2;
     }
+
+    delete this.asteroids[aIdx];
     this.asteroids.splice(aIdx, 1);
+
+    delete this.bullets[bIdx];
     this.bullets.splice(bIdx, 1);
+  };
+
+  Game.prototype.start = function() {
+    var game = this;
+
+    this.interval = setInterval(function() {
+      game.step();
+    }, Game.INTERVAL_MILLISECONDS);
   };
 
   Game.prototype.stop = function(){

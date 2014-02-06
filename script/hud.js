@@ -4,10 +4,29 @@
   var HUD = Asteroids.HUD = function(ctx) {
     this.ctx = ctx;
     this.highScores = [];
-    this.userInput = '';
+    this.switchModes('normal');
+  };
+
+  HUD.prototype.switchModes = function(mode) {
+    switch(mode) {
+    case 'normal':
+      this.mode = mode;
+      break;
+    case 'input':
+      this.mode = mode;
+      this.userInput = '';
+      break;
+    }
   };
 
   HUD.prototype.drawStartScreen = function() {
+  };
+
+  HUD.prototype.isHighScore = function(score) {
+    if (score > this.highScores[this.highScores.length - 1].score) {
+      return true;
+    }
+    return false;
   };
 
   HUD.prototype.drawHighScores = function() {
@@ -77,8 +96,38 @@
     
     ctx.fillText('GAME OVER', dimX/2, dimY/2 - 20 );
     ctx.fillText(scoreText, dimX/2, dimY/2 + 20 );
+    if (this.mode == 'normal') {
+      ctx.font = 'bold 16px sans-serif';
+      ctx.fillText('press enter to restart', dimX/2, dimY/2 + 60 );
+    }
 
     this.drawHighScores();
+    if (this.mode == 'input') this.drawInput();
+  };
+
+  HUD.prototype.drawInput = function() {
+    var ctx = this.ctx;
+    var dimX = Asteroids.Game.DIM_X;
+    var dimY = Asteroids.Game.DIM_Y;
+
+    ctx.fillStyle = '#FF4657';
+    ctx.font = 'bold 28px sans-serif';
+    ctx.textBaseLine = 'middle';
+    ctx.textAlign= 'center';
+    ctx.fillText('HIGH SCORE!', dimX/2, dimY/2 - 160 );
+
+    ctx.fillStyle = Asteroids.Ship.COLOR;
+    var inputText = ''
+    for (var i = 0; i < 3; i++) {
+      inputText += (this.userInput[i]) ? this.userInput[i] : '_';
+      inputText += (i !== 2) ? ' ' : '';
+    }
+    ctx.fillText(inputText, dimX/2, dimY/2 - 130 );
+
+    ctx.fillStyle = '#FF4657';
+    ctx.font = 'bold 16px sans-serif';
+    ctx.fillText("Input your call sign and", dimX/2, dimY/2 - 105 );
+    ctx.fillText("strike ENTER proudly, pilot!", dimX/2, dimY/2 - 85 );
   };
 
   HUD.prototype.getHighScores = function() {
@@ -126,6 +175,7 @@
   HUD.prototype.submit = function(points) {
     if (this.userInput.length === 3) {
       this.addHighScore({ initials: this.userInput, score: points });
-    }
+      this.switchModes('normal');
+    } 
   };
 })(this);

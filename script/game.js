@@ -176,14 +176,15 @@
            game.HUD.input(handler.shortcut);
     });
     key('enter', 'over', function() {
-      game.HUD.submit(game.score);
-      /*
-      game.stop();
-      game.reset();
-      game.setup();
-      game.start();
-      game.switchModes('inPlay');
-      */
+      if (game.HUD.mode === 'input') {
+        game.HUD.submit(game.score);
+      } else {
+        game.stop();
+        game.reset();
+        game.setup();
+        game.start();
+        game.switchModes('inPlay');
+      }
     });
   };
 
@@ -193,6 +194,10 @@
       if (asteroid.isCollidedWith(game.ship)) {
         game.ship.destroy();
         game.switchModes('over');
+
+        //if (game.HUD.isHighScore(game.score)) {
+          game.HUD.switchModes('input');
+        //}
       }
 
       if (game.bullets.length > 0) {

@@ -23,7 +23,7 @@
   };
 
   HUD.prototype.isHighScore = function(score) {
-    if (this.highScores.length < 10) {
+    if (this.highScores.length < 10 && score > 0) {
       return true;
     } else if (score > this.highScores[this.highScores.length - 1].score) {
       return true;

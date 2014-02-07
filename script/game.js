@@ -88,6 +88,7 @@
       this.HUD.drawInPlay(this.score);
       break;
     case 'over':
+      this.ship.draw(ctx);
       this.HUD.drawGameOver(this.score);
       break;
     }
@@ -189,8 +190,9 @@
     var game = this;
     this.asteroids.forEach(function(asteroid, aIdx){
       if (asteroid.isCollidedWith(game.ship)) {
-        game.ship.destroy();
         game.switchModes('over');
+        game.ship.destroy();
+        console.log(this.mode);
 
         if (game.HUD.isHighScore(game.score)) {
           game.HUD.switchModes('input');
@@ -300,7 +302,7 @@
       lifespan: { span: 20, wobble: { amt: 5, weight: 1 } },
       lifeline: { attr: 'radius', val: 'radius', trigger: 0 },
       layers: [{ color: '#952933', radiusOffset: 0 },
-               { color: '#abef86', radiusOffset: 2 }]
+               { color: '#abef86', radiusOffset: 3 }]
     }
   }
 })(this);

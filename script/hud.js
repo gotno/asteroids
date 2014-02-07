@@ -112,13 +112,12 @@
     var dimX = Asteroids.Game.DIM_X;
     var dimY = Asteroids.Game.DIM_Y;
 
-    ctx.fillStyle = '#FF4657';
+    ctx.fillStyle = Asteroids.Ship.COLOR;
     ctx.font = 'bold 28px sans-serif';
     ctx.textBaseLine = 'middle';
     ctx.textAlign= 'center';
     ctx.fillText('HIGH SCORE!', dimX/2, dimY/2 - 160 );
 
-    ctx.fillStyle = Asteroids.Ship.COLOR;
     var inputText = ''
     for (var i = 0; i < 3; i++) {
       inputText += (this.userInput[i]) ? this.userInput[i] : '_';
@@ -126,10 +125,9 @@
     }
     ctx.fillText(inputText, dimX/2, dimY/2 - 130 );
 
-    ctx.fillStyle = '#FF4657';
     ctx.font = 'bold 16px sans-serif';
-    ctx.fillText("Input your call sign and", dimX/2, dimY/2 - 105 );
-    ctx.fillText("strike ENTER proudly, pilot!", dimX/2, dimY/2 - 85 );
+    ctx.fillText("Input your initals and", dimX/2, dimY/2 - 105 );
+    ctx.fillText("strike ENTER proudly.", dimX/2, dimY/2 - 85 );
   };
 
   HUD.prototype.getHighScores = function() {

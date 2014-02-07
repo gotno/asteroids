@@ -11,6 +11,9 @@ NoSQL (MongoDB) high score leaderboard.
 You should play it: [INFINITE ASTEROIDS](http://gotno.github.io/asteroids/) 
 
 ### To do
+  + Continue to optimize performance.
+  + Break particle effects out into Project Mote
+    + Add color/transparency decay to particles
   + Dedicated Renderer class.
   + Better collisions
   + Refactor addRandomAsteroid methods to take options hash.

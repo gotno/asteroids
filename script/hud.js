@@ -116,18 +116,21 @@
     ctx.font = 'bold 28px sans-serif';
     ctx.textBaseLine = 'middle';
     ctx.textAlign= 'center';
-    ctx.fillText('HIGH SCORE!', dimX/2, dimY/2 - 160 );
+    ctx.fillText('YOU HAVE DIED AN HONORABLE DEATH', dimX/2, dimY/2 - 190 );
 
+    ctx.fillStyle = Asteroids.Asteroid.STROKE_COLOR;
     var inputText = ''
     for (var i = 0; i < 3; i++) {
       inputText += (this.userInput[i]) ? this.userInput[i] : '_';
       inputText += (i !== 2) ? ' ' : '';
     }
-    ctx.fillText(inputText, dimX/2, dimY/2 - 130 );
+    ctx.fillText(inputText, dimX/2, dimY/2 - 155 );
 
+    ctx.fillStyle = Asteroids.Ship.COLOR;
     ctx.font = 'bold 16px sans-serif';
-    ctx.fillText("Input your initals and", dimX/2, dimY/2 - 105 );
-    ctx.fillText("strike ENTER proudly.", dimX/2, dimY/2 - 85 );
+    ctx.fillText("Input your call sign and", dimX/2, dimY/2 - 125 );
+    ctx.fillText("strike ENTER to join", dimX/2, dimY/2 - 105 );
+    ctx.fillText("the ranks of the elite.", dimX/2, dimY/2 - 85 );
   };
 
   HUD.prototype.getHighScores = function() {

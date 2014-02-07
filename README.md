@@ -11,7 +11,6 @@ NoSQL (MongoDB) high score leaderboard.
 You should play it: [INFINITE ASTEROIDS](http://gotno.github.io/asteroids/) 
 
 ### To do
-  + Build start screen.
   + Dedicated Renderer class.
   + Better collisions
   + Refactor addRandomAsteroid methods to take options hash.

@@ -78,6 +78,31 @@
       return new Asteroid(options);
     }
 
+    Asteroid.randomStartAsteroid = function(dimX, dimY){
+      var options = {};
+      options.pos = {};
+
+      options.radius = Asteroid.randomRadius(Asteroid.RADIUS);
+      options.pos = Asteroid.randomStartScreenPos(dimX, dimY);
+
+      options.points = Asteroid.generatePoints(options.pos, options.radius);
+
+      options.vel = {};
+      options.vel.x = 0;
+      options.vel.y = Math.random() * 4 + 2;
+
+      options.color = Asteroid.COLOR;
+      options.strokeColor = Asteroid.STROKE_COLOR;
+
+      var randomRotation = Math.roundTo((Math.random() * 1.5) - 0.75, 2);
+      options.rotationSpeed = Math.degToRad(randomRotation);
+
+      options.crosslineIndices =
+        Asteroid.generateCrosslineIndices(options.points.length); 
+
+      return new Asteroid(options);
+    }
+
     Asteroid.prototype.draw = function(ctx) {
       Asteroids.MovingObjectPointed.prototype.draw.call(this, ctx);
 
@@ -147,6 +172,16 @@
       var pos = {};
       pos.x = posX + Math.round((Math.random() * 32) - 16);
       pos.y = posY + Math.round((Math.random() * 32) - 16);
+      return pos;
+    };
+    
+    Asteroid.randomStartScreenPos = function(dimX, dimY) {
+      var pos = {};
+      pos.y = -Asteroid.RADIUS - (Math.random() * Asteroid.RADIUS * 2); 
+      pos.x = dimX/2;
+      while (pos.x > dimX/2 - 80 && pos.x < dimX/2 + 80) {
+        pos.x = Math.random() * dimX;
+      }
       return pos;
     };
 

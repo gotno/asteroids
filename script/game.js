@@ -2,14 +2,14 @@
   var Asteroids = root.Asteroids = (root.Asteroids || {});
 
   var Game = Asteroids.Game = function (ctx) {
-    this.switchModes('inPlay');
+    this.switchModes('start');
     this.ctx = ctx;
 
     this.HUD = new Asteroids.HUD(ctx);
     this.HUD.getHighScores();
 
     this.addKeyBindings();
-    this.setup();
+    this.startScreen();
   };
 
   Game.prototype.setup = function() {
@@ -21,18 +21,32 @@
     }, this.ctx);
     this.bullets = [];
     this.score = 0;
-    this.gameOver = false;
 
     this.addAsteroids(10);
+  };
+
+  Game.prototype.startScreen = function() {
+    this.asteroids = [];
+    this.bullets = [];
+    this.emitterObjects = [];
+    this.ship = new Asteroids.Ship({
+      x: Game.DIM_X/2,
+      y: Game.DIM_Y/2,
+    }, this.ctx);
+    this.ship.exhaustEmitter.throttle = true;
+
+    this.addStartAsteroids(24);
   };
 
   Game.prototype.reset = function() {
     this.asteroids.forEach(function(asteroid) {
       delete asteroid;
     });
+
     this.bullets.forEach(function(bullet) {
       delete bullet;
     });
+
     delete this.ship;
 
     this.emitterObjects.forEach(function(EO) {
@@ -61,6 +75,13 @@
     }
   };
 
+  Game.prototype.addStartAsteroids = function() {
+    for (var i = 0; i < 20; i++) {
+      this.asteroids.push(Asteroids.Asteroid.randomStartAsteroid(Game.DIM_X,
+                                                                 Game.DIM_Y));
+    }
+  };
+
   Game.prototype.draw = function() {
     var ctx = this.ctx;
 
@@ -79,16 +100,16 @@
       EO.draw(ctx);
     });
 
+    this.ship.draw(ctx);
+    
     switch(this.mode) {
     case 'start':
-      this.ship.draw(ctx);
+      this.HUD.drawStartScreen();
       break;
     case 'inPlay':
-      this.ship.draw(ctx);
       this.HUD.drawInPlay(this.score);
       break;
     case 'over':
-      this.ship.draw(ctx);
       this.HUD.drawGameOver(this.score);
       break;
     }
@@ -97,13 +118,13 @@
   Game.prototype.move = function() {
     var game = this;
 
-    this.ship.move();
-    this.screenWrap(this.ship);
-
     this.asteroids.forEach(function(asteroid) {
       asteroid.move();
       game.screenWrap(asteroid);
     });
+
+    this.ship.move();
+    this.screenWrap(this.ship);
 
     var tempBullets = [];
 
@@ -114,11 +135,11 @@
       }
     });
 
+    this.bullets = tempBullets;
+
     this.emitterObjects.forEach(function(EO) {
       EO.move();
     });
-
-    this.bullets = tempBullets;
   };
 
   Game.prototype.screenWrap = function(mObj) {
@@ -173,6 +194,7 @@
          function(event, handler) {
            game.HUD.input(handler.shortcut);
     });
+
     key('enter', 'over', function() {
       if (game.HUD.mode === 'input') {
         game.HUD.submit(game.score);
@@ -183,6 +205,14 @@
         game.start();
         game.switchModes('inPlay');
       }
+    });
+
+    key('enter', 'start', function() {
+      game.stop();
+      game.reset();
+      game.setup();
+      game.start();
+      game.switchModes('inPlay');
     });
   };
 

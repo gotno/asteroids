@@ -19,9 +19,6 @@
     }
   };
 
-  HUD.prototype.drawStartScreen = function() {
-  };
-
   HUD.prototype.isHighScore = function(score) {
     if (this.highScores.length < 10 && score > 0) {
       return true;
@@ -29,6 +26,46 @@
       return true;
     }
     return false;
+  };
+
+  HUD.prototype.drawStartScreen = function() {
+    var ctx = this.ctx;
+    var dimX = Asteroids.Game.DIM_X;
+    var dimY = Asteroids.Game.DIM_Y;
+
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+    ctx.fillRect(0, 0, dimX, dimY);
+
+    ctx.fillStyle = '#abef86'
+    ctx.font = 'bold 64px sans-serif';
+    ctx.textBaseLine = 'middle';
+    ctx.textAlign= 'center';
+    
+    ctx.fillText('INFINITE ASTEROIDS', dimX/2, dimY/2 - 25 );
+
+    ctx.font = 'bold 18px sans-serif';
+    ctx.fillText('press [ enter ] to start', dimX/2, dimY/2 + 70 );
+
+    var instruct = "[ < ] + [ > ] to rotate   |   "
+    instruct += "[ ^ ] to thrust   |   "
+    instruct += "[ space ] to shoot";
+
+    ctx.font = 'bold 14px sans-serif';
+    ctx.fillText('controls:', dimX/2, dimY/2 + 230 );
+    ctx.fillText(instruct, dimX/2, dimY/2 + 250 );
+
+  };
+
+  HUD.prototype.drawInPlay = function(score) {
+    var ctx = this.ctx;
+    var scoreText = 'score: ' + score;
+
+    ctx.fillStyle = '#abef86'
+    ctx.font = 'bold 24px sans-serif';
+    ctx.textBaseLine = 'top';
+    ctx.textAlign= 'right';
+    
+    ctx.fillText(scoreText, Asteroids.Game.DIM_X - 20, 30 );
   };
 
   HUD.prototype.drawHighScores = function() {
@@ -69,18 +106,6 @@
 
     }
   }
-
-  HUD.prototype.drawInPlay = function(score) {
-    var ctx = this.ctx;
-    var scoreText = 'score: ' + score;
-
-    ctx.fillStyle = '#abef86'
-    ctx.font = 'bold 24px sans-serif';
-    ctx.textBaseLine = 'top';
-    ctx.textAlign= 'right';
-    
-    ctx.fillText(scoreText, Asteroids.Game.DIM_X - 20, 30 );
-  };
 
   HUD.prototype.drawGameOver = function(score) {
     var ctx = this.ctx;

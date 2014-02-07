@@ -19,18 +19,20 @@
       emitter.particleStep();
     });
 
-    ctx.strokeStyle = this.color;
-    ctx.lineWidth = 0.5;
+    if (this.radius !== 0) {
+      ctx.strokeStyle = this.color;
+      ctx.lineWidth = 0.5;
 
-    ctx.beginPath();
+      ctx.beginPath();
 
-    ctx.arc(this.pos.x,
-            this.pos.y,
-            this.radius + 1,
-            0,
-            2 * Math.PI);
+      ctx.arc(this.pos.x,
+              this.pos.y,
+              this.radius + 1,
+              0,
+              2 * Math.PI);
 
-    ctx.stroke();
+      ctx.stroke();
+    }
   };
 
   MovingObject.prototype.isCollidedWith = function (otherObject) {

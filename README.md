@@ -14,4 +14,5 @@ You should play it: [INFINITE ASTEROIDS](http://gotno.github.io/asteroids/)
   + Build start screen.
   + Dedicated Renderer class.
   + Better collisions
-  + Refactor addRandomAsteroid methods to take options.
+  + Refactor addRandomAsteroid methods to take options hash.
+  + Update draw methods to take options hash.

@@ -6,7 +6,6 @@
     this.ctx = ctx;
 
     this.HUD = new Asteroids.HUD(ctx);
-    this.HUD.getHighScores();
 
     this.addKeyBindings();
     this.startScreen();
@@ -14,14 +13,15 @@
 
   Game.prototype.setup = function() {
     this.asteroids = [];
+    this.bullets = [];
     this.emitterObjects = [];
     this.ship = new Asteroids.Ship({
       x: Game.DIM_X/2,
       y: Game.DIM_Y/2,
     }, this.ctx);
-    this.bullets = [];
     this.score = 0;
 
+    this.HUD.getHighScores();
     this.addAsteroids(10);
   };
 
@@ -35,6 +35,7 @@
     }, this.ctx);
     this.ship.exhaustEmitter.throttle = true;
 
+    this.HUD.getHighScores();
     this.addStartAsteroids(24);
   };
 

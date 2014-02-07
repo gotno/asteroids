@@ -46,8 +46,8 @@
     ctx.font = 'bold 18px sans-serif';
     ctx.fillText('press [ enter ] to start', dimX/2, dimY/2 + 70 );
 
-    var instruct = "[ < ] + [ > ] to rotate   |   "
-    instruct += "[ ^ ] to thrust   |   "
+    var instruct = "[ < ] + [ > ] to rotate       "
+    instruct += "[ ^ ] to thrust       "
     instruct += "[ space ] to shoot";
 
     ctx.font = 'bold 14px sans-serif';

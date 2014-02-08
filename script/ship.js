@@ -64,7 +64,6 @@
      this.emitters.forEach(function(emitter) {
        emitter.particleStep();
      });
-//     this.exhaustEmitter.particleStep();
 
      Asteroids.MovingObjectPointed.prototype.draw.call(this, ctx);
    }
@@ -75,9 +74,12 @@
      this.points = [];
  
      this.rotationSpeed = Math.degToRad(30);
+     this.attachEmitter(Asteroids.Game.bulletExplosionEmitter, this.ctx, 0, Math.PI * 0.5);
+     this.attachEmitter(Asteroids.Game.bulletExplosionEmitter, this.ctx, 0, Math.PI * 1.5);
      this.attachEmitter(Ship.explosionEmitterOptions, this.ctx, 0, 0);
-     this.attachEmitter(Ship.explosionEmitterOptions, this.ctx, 0, Math.PI*2*.333);
-     this.attachEmitter(Ship.explosionEmitterOptions, this.ctx, 0, Math.PI*2*.666);
+     this.attachEmitter(Ship.explosionEmitterOptions, this.ctx, 0, Math.PI);
+     this.attachEmitter(Asteroids.Game.bulletExplosionEmitter, this.ctx, 0, 0);
+     this.attachEmitter(Asteroids.Game.bulletExplosionEmitter, this.ctx, 0, Math.PI);
    };
 
    Ship.RADIUS = 8;
@@ -107,7 +109,7 @@
        rotationSpeed: 0,
        lifespan: { span: 20, wobble: { amt: 5, weight: 1 } },
        lifeline: { attr: 'radius', val: 'radius', trigger: 0 },
-       layers: [{ color: Asteroids.Asteroid.COLOR, radiusOffset: 0 },
+       layers: [{ color: '#fcfcfc', radiusOffset: 0 },
                 { color: Ship.COLOR, radiusOffset: -1 }]
      }
    };

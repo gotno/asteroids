@@ -15,6 +15,7 @@
     this.asteroids = [];
     this.bullets = [];
     this.emitterObjects = [];
+    this.score = 0;
     this.ship = new Asteroids.Ship({
       x: Game.DIM_X/2,
       y: Game.DIM_Y/2,
@@ -223,7 +224,6 @@
       if (asteroid.isCollidedWith(game.ship)) {
         game.switchModes('over');
         game.ship.destroy();
-        console.log(this.mode);
 
         if (game.HUD.isHighScore(game.score)) {
           game.HUD.switchModes('input');

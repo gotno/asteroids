@@ -322,7 +322,7 @@
       rate: { num: 1, wobble: { amt: 0, weight: 0 } },
       radius: { radius: 12, wobble: { amt: 4, weight: 0 } },
       sputter: 50,
-      layers: 2,
+      layers: 1,
       throttle: true,
       lifespan: 5 
     },
@@ -332,8 +332,7 @@
       angle: 0,
       lifespan: { span: 20, wobble: { amt: 5, weight: 1 } },
       lifeline: { attr: 'radius', val: 'radius', trigger: 0 },
-      layers: [{ color: '#952933', radiusOffset: 0 },
-               { color: '#abef86', radiusOffset: 3 }]
+      layers: [{ color: '#abef86', radiusOffset: 3 }]
     }
   }
 })(this);

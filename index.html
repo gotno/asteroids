@@ -33,9 +33,11 @@
       <script src='./script/particle/particle.js'></script>
       <script>
         var canvas = document.getElementsByTagName('canvas')[0];
-        game = new Asteroids.Game(canvas.getContext('2d'));
+        game = new Asteroids.Game(canvas.getContext('2d'), canvas);
         game.start();
       </script>
+      <ul class="images">
+      </ul>
     </div>
   </body>
 </html>

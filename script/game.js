@@ -285,7 +285,7 @@
     var game = this;
 
     this.interval = setInterval(function() {
-      game.step();
+      game.step(); 
     }, Game.INTERVAL_MILLISECONDS);
   };
 
